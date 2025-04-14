@@ -1,0 +1,55 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "InQuery",
+  "colors": {
+    "primary": "#3772FF",
+    "light": "#6BE4C4",
+    "dark": "#080D2B"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "get-started/introduction",
+          "get-started/quickstart",
+          "get-started/terminology"
+        ]
+      },
+      {
+        "group": "Essentials",
+        "pages": [
+          "essentials/case-management",
+          "essentials/file-management",
+          "essentials/section-management",
+          "essentials/page-management",
+          "essentials/team-management"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/inquery_full_logo.png",
+    "dark": "/logo/emblem_inquery_white.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:hi@mintlify.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/inquery-ai"
+    }
+  }
+}

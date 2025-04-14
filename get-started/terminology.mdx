@@ -1,0 +1,38 @@
+---
+title: 'Terminology and Definitions'
+description: 'A list of the key terms and definitions used in InQuery'
+---
+
+## Case
+A Case represents a single legal matter. In order to create a case, users will need to upload at least one File, but a single case can contain multiple files.
+
+## File/Document/Record
+These three terms are used interchangeably and represent a single .pdf, .docx, or .png file that is uploaded to InQuery. Users can upload multiple files to a single case. InQuery will add multiple bookmarks to each file to delineate document sections.
+
+## Sections/Records
+A Section is a single section of a record. InQuery will add multiple bookmarks to each file to delineate document sections, since there are often multiple relevant sections in a single file.
+
+## Page
+Pages are straightforward and represent a single page of a document. Each Section/Record will correspond to one or more pages in a document.
+
+## Section Title
+Each Section/Record will be automatically assigned a title by InQuery. This title will be based on the content of the section and the context of the document and generally does not adhere to any particular set of options.
+
+## Section Type/Tag
+Each Section will be automatically assigned a type/tag by InQuery. These tags will be selected from a pre-defined list of options based on each organization's needs.
+
+## Section Group
+A section group represents a collection of sections with the same type/tag. Groups will be used to organize and bookmark sections.
+
+## Section Date
+Each Section will be automatically assigned a date by InQuery. This date will be selected by AI after reading the actual content of each section. InQuery generally selects the 
+date that is closest to dates of service or exams, but may default to the date the document was signed or produced if no other dates are present in the section.
+
+## Section Provider
+A provider is the name of the author of a particular document, typically a doctor or other medical professional. This provider will be selected by AI after reading the actual content of each section. If a section does not contain the name of an author or physician, our model will avoid naming the provider. If it contains multiple names, our model will select the most likely author.
+
+## Section Institution
+An institution is the name of the organization that produced the document. This institution will be selected by AI after reading the actual content of each section. If a section does not contain the name of an institution, our model will avoid naming the institution. If it contains multiple names, our model will select the most likely institution.
+
+## Section Relevance
+A section's relevance (denoted by a green, yellow, red, or blue icon) is a measure of the relevance of a section to the case. The relevance is calculated based on the case type, the case cover letter (if provided), and the content of the section. InQuery will analyze each section to determine whether each section contains relevant information to the case.
