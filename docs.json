@@ -13,7 +13,15 @@
       {
         "group": "Get Started",
         "pages": [
+          "get-started/managing-cases",
+          "get-started/downloading-cases",
+          "get-started/billing",
+          "get-started/case-info",
+          "get-started/document-section",
+          "get-started/untitled-page",
+          "get-started/uploading-a-case",
           "get-started/introduction",
+          "get-started/services",
           "get-started/quickstart",
           "get-started/terminology"
         ]

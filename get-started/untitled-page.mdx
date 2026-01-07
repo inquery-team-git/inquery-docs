@@ -1,0 +1,498 @@
+---
+title: "Document Index"
+description: "Master document organization with grouping, filtering, and sorting"
+---
+
+## Overview
+
+The **Document Index** is the left panel below the controls toolbar that lists every document in a case (also called **sections** or **exhibits**). It’s the primary way to navigate, organize, and find content within large medical record sets.
+
+![Document Index Overview](/images/document-index-overview.png)
+
+<CardGroup cols={3}>
+  <Card title="Grouping" icon="layers">
+    Organize exhibits into collapsible groups (Type, Provider, Institution, etc.)
+  </Card>
+  <Card title="Filtering" icon="filter">
+    Narrow the list using types, dates, relevance, search, and admin status
+  </Card>
+  <Card title="Sorting" icon="arrow-up-wide-short">
+    Change exhibit order by date, page, relevance, provider, length, and more
+  </Card>
+</CardGroup>
+
+---
+
+## Layout
+
+The Document Index consists of:
+
+- **Controls Toolbar** — grouping, filtering, sorting, and actions  
+- **Exhibit Counter** — exhibits + total pages currently visible  
+- **Active Filters Bar** — a “chip” list of what’s currently applied  
+- **Document List** — scrollable list of sections/exhibits  
+
+---
+
+## Controls Toolbar
+
+![Controls Toolbar](/images/controls-toolbar.png)
+
+<AccordionGroup>
+  <Accordion title="Toolbar buttons (left → right)">
+    **1) Group Selector (Layers icon)**  
+    - Toggle grouping on/off  
+    - Groups by document type, provider, institution (depends on org settings)  
+    - Blue = active, gray = inactive  
+
+    **2) Filter Button (Funnel icon)**  
+    - Opens filter menu  
+    - Apply multiple filters simultaneously  
+
+    **3) Sort Controls (Up/Down arrows + Dropdown)**  
+    - Arrow: reverse sort direction (ascending ↔ descending)  
+    - Dropdown: choose sort field (Page, Date, Relevance, Name, etc.)  
+
+    **4) View Mode Selector (Archive icon + badge)**  
+    - Toggle between **Primary** and **Ancillary** documents  
+    - Badge shows count in the other view  
+    - Primary = main records  
+    - Ancillary = supporting docs, duplicates, low-relevance items  
+
+    **5) Medical Chronology Mode (Clock icon)** *(if available)*  
+    - Switches to a timeline-oriented view  
+    - Filters to medical chronology doc types  
+    - Auto-sorts by date  
+
+    **6) Download (Download icon)** *(role dependent)*  
+    - Download documents, summaries, and reports  
+
+    **7) Share (Share icon)** *(owner only)*  
+    - Share case and manage permissions  
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Exhibit Counter
+
+The exhibit counter shows how many exhibits and pages are **currently visible**:
+
+> 23 Exhibits Found (487 pages)
+
+<Info>
+  The counter updates as you apply filters. It counts only what’s visible — not the total documents in the case.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="Admin/Validator warning indicators">
+    You may see warnings such as:
+
+    - **⚠️ Page numbers don't match up** — possible missing/misconfigured sections  
+    - **⚠️ Provider/institution name looks similar to patient name** — potential labeling issue  
+    - **⚠️ Unspecified document type** — needs classification  
+    - **⚠️ X REJECTED flags (needs re-review)** — rejected flags require validator review  
+    - **⚠️ X need review/validation** — sections require admin/validator attention  
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Grouping
+
+Grouping organizes exhibits into collapsible categories for faster navigation.
+
+![Grouping Enabled](/images/grouping-enabled.png)
+
+<Steps>
+  <Step title="Enable grouping">
+    Click the <b>Layers</b> icon in the toolbar.
+  </Step>
+  <Step title="Browse groups">
+    Documents reorganize into collapsible groups. Click group headers to expand/collapse.
+  </Step>
+  <Step title="Disable grouping">
+    Click the Layers icon again to return to a flat list.
+  </Step>
+</Steps>
+
+<AccordionGroup>
+  <Accordion title="Common grouping strategies">
+    InQuery uses your org’s configured grouping strategy, such as:
+
+    - **Document Type** *(default)* — Progress Notes, Lab Results, Imaging, etc.  
+    - **Provider** *(if enabled)* — grouped by clinician/clinic  
+    - **Institution** *(if enabled)* — grouped by facility/hospital  
+    - **Admission** *(if detected)* — grouped by inpatient stays  
+  </Accordion>
+
+  <Accordion title="Hierarchy and navigation">
+    When grouped, you’ll often see a two-level hierarchy (group → subgroup → exhibits):
+
+    📁 Progress Notes (24 documents)  
+      └─ Dr. Smith – Internal Medicine (8 documents)  
+         • Progress Note – 01/15/2024 (3 pages)  
+         • Progress Note – 01/22/2024 (2 pages)  
+  </Accordion>
+
+  <Accordion title="When grouping is disabled automatically">
+    - **Delete Mode:** grouping is disabled to prevent accidental mass deletions  
+    - **Medical Chronology Mode:** grouping is disabled by default to keep a continuous timeline  
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Grouping improves navigation in cases with hundreds of documents by reducing the number of visible items at once.
+</Tip>
+
+<Warning>
+  **Orphaned Sections:** If a parent section is filtered out, child sections may appear at the top level. This is expected — the child is still accessible.
+</Warning>
+
+---
+
+## Filtering
+
+Filters let you show/hide exhibits based on criteria. Filters stack using **AND** logic.
+
+![Filter Menu](/images/filter-menu.png)
+
+<Steps>
+  <Step title="Open filters">
+    Click the <b>Funnel</b> icon in the toolbar.
+  </Step>
+  <Step title="Apply filters">
+    Expand a category and set filters. The document list updates immediately.
+  </Step>
+  <Step title="Remove filters">
+    Use the Active Filters Bar “chips” to remove filters one-by-one.
+  </Step>
+</Steps>
+
+### Filter Categories (Quick Reference)
+
+<AccordionGroup>
+  <Accordion title="Document Types">
+    Show/hide specific document categories.
+
+    - <b>Show All</b> checked = no type filtering  
+    - Uncheck <b>Show All</b> to activate individual type toggles  
+    - Use <b>Only</b> to show just one type instantly
+
+    <Info>
+      Document types are organization-specific and reflect your configured taxonomy.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Relevance">
+    Show/hide exhibits by AI relevance.
+
+    - **High** relevance = core medical records and key findings  
+    - **Low** relevance = supporting docs / routine items  
+
+    Typical flow: hide <b>Low</b> first, review later for completeness.
+  </Accordion>
+
+  <Accordion title="Document Date Range">
+    Filter by the date on the record (visit date / service date).
+
+    - Set From/To dates  
+    - Toggle <b>Include Undated</b> to show/hide undated exhibits  
+
+    <Warning>
+      Dates are extracted from document content; some records may appear undated if extraction fails.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="File Upload Date Range">
+    Filter by when files were uploaded into InQuery.
+
+    - <b>Document Date</b> = date on the record  
+    - <b>Upload Date</b> = when you uploaded the file
+  </Accordion>
+
+  <Accordion title="Name / Provider Search">
+    Filters by provider/person name fields.
+
+    - Case-insensitive  
+    - Partial matching (e.g., “Smith” matches “Dr. John Smith”)
+  </Accordion>
+
+  <Accordion title="Content Search (full text)">
+    Shows only exhibits that contain a search term in OCR text.
+
+    <Tip>
+      On large cases, apply Document Type + Date filters first, then use Content Search.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Summary Content Search">
+    Searches the AI-generated summary text (faster than full content search in many cases).
+
+    Use this to quickly locate sections where summaries mention key findings.
+  </Accordion>
+
+  <Accordion title="Document Length (page count)">
+    Filter by min/max pages to find very short or very long exhibits.
+
+    Examples:
+    - Min 10 = long reports  
+    - Max 2 = short items like fax covers
+  </Accordion>
+
+  <Accordion title="Parenthood Status">
+    Show/hide parent sections vs. regular sections.
+
+    <Info>
+      Mostly useful for admins/validators working with heavily split documents.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Summary Status">
+    Show only exhibits with summaries (or only without) to find processing gaps.
+  </Accordion>
+
+  <Accordion title="Validation Status (Admin/Validator)">
+    Filter by whether a section has been validated.
+  </Accordion>
+
+  <Accordion title="Flag Review Status (Admin/Validator)">
+    Filter by the review state of flags (No Flags / Unvalidated / Validated / Rejected).
+  </Accordion>
+
+  <Accordion title="Case Info Required (Advanced)">
+    A <b>positive filter</b>: checking a box means “show only documents WITH this info.”
+
+    Examples:
+    - Medications  
+    - Procedures  
+    - Recommendations  
+  </Accordion>
+</AccordionGroup>
+
+### Active Filters Bar
+
+When filters are applied, they appear as chips below the toolbar.
+
+![Active Filters](/images/active-filters.png)
+
+<AccordionGroup>
+  <Accordion title="Understanding filter chips">
+    - **Red chips** = hidden items (e.g., hidden document types, hidden relevance)  
+    - **Gray chips** = active constraints (date ranges, text searches)
+
+    Remove a filter by clicking the <b>X</b> on the chip.
+  </Accordion>
+
+  <Accordion title="Edit Mode restriction">
+    <Warning>
+      You cannot add/remove filters while in Edit Mode. Exit Edit Mode, adjust filters, then re-enter.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Sorting
+
+Sorting changes the order exhibits appear in the index.
+
+![Sort Controls](/images/sort-controls.png)
+
+<AccordionGroup>
+  <Accordion title="How sort controls work">
+    **Sort Direction (arrow button)**  
+    - Toggles ascending ↔ descending  
+
+    **Sort Key (dropdown)**  
+    - Chooses the field (Page, Date, Relevance, Provider, Length, etc.)
+  </Accordion>
+
+  <Accordion title="Common sort options and when to use them">
+    - **Page (default):** mirrors original file order  
+    - **Relevance:** prioritize important documents first (recommended: descending)  
+    - **Date:** understand clinical timeline (undated items appear at the end)  
+    - **Provider/Name:** alphabetical review by clinician  
+    - **Institution:** facility-focused review *(if enabled)*  
+    - **Document Length:** find long reports or short noise documents
+  </Accordion>
+
+  <Accordion title="Sorting with grouping">
+    - With grouping ON: sections sort <i>within</i> each group  
+    - Groups typically sort alphabetically by group name  
+    - With grouping OFF: all sections sort together in one list
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Usage Patterns
+
+<AccordionGroup>
+  <Accordion title="Quick case review (fastest path)">
+    **Goal:** review most important documents first
+
+    1. Sort: <b>Relevance (descending)</b>  
+    2. Filter: hide <b>Low</b> relevance  
+    3. Filter: hide noise types (fax covers, correspondence, etc.)  
+    4. Review top documents in order
+  </Accordion>
+
+  <Accordion title="Chronological timeline">
+    **Goal:** understand treatment over time
+
+    1. Enable <b>Medical Chronology Mode</b> *(if available)*  
+       - Or: sort by <b>Date (ascending)</b> and filter types manually  
+    2. Optionally filter by date range  
+    3. Keep grouping OFF for a continuous timeline
+  </Accordion>
+
+  <Accordion title="Provider-specific review">
+    **Goal:** review one provider’s full arc of care
+
+    1. Group by <b>Provider</b> *(if available)* or sort by provider name  
+    2. Use Name/Provider filter to isolate a provider  
+    3. Sort by <b>Date (ascending)</b> within the provider
+  </Accordion>
+
+  <Accordion title="Recent records only">
+    **Goal:** focus on the last 3–12 months
+
+    1. Filter: Document Date Range (From: a recent date)  
+    2. Sort: Date (descending)  
+    3. Hide low-relevance + ancillary docs  
+  </Accordion>
+
+  <Accordion title="Find specific information">
+    **Goal:** locate mentions of a diagnosis, medication, or event
+
+    1. Filter: Content Search (term)  
+    2. Sort: Date (ascending) to see first mention  
+    3. Use PDF search in the viewer to jump to exact mentions
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Common Gotchas
+
+<AccordionGroup>
+  <Accordion title="Filters stack (AND logic)">
+    <Warning>
+      Multiple filters narrow results together.
+
+      Example:
+      - Type = Lab Results only
+      - Date Range = Last 6 months
+      Result = lab results from last 6 months (not all labs OR all recent docs)
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Hidden ancillary documents">
+    If your count seems low, toggle the <b>View Mode</b> (Archive icon) and check Ancillary.
+  </Accordion>
+
+  <Accordion title="Undated documents cluster at the end">
+    If many items appear at the end when sorting by date:
+    - Toggle <b>Include Undated</b> off
+    - Or sort by Page/Relevance instead
+  </Accordion>
+
+  <Accordion title="“Show All” checkbox confusion (Document Types)">
+    - <b>Show All checked</b> = type filter is inactive  
+    - Uncheck <b>Show All</b> to enable individual type toggles  
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Keyboard Shortcuts
+
+While the filter menu is open:
+
+| Action | Shortcut |
+|--------|----------|
+| Close filter menu | `Escape` |
+| Navigate filter sections | `↑` `↓` |
+| Expand/collapse section | `Enter` |
+
+---
+
+## Performance Tips
+
+<CardGroup cols={2}>
+  <Card title="Filter before sort" icon="filter">
+    Apply filters first to reduce the dataset, then sort.
+  </Card>
+  <Card title="Start with document type" icon="layers">
+    Document Type filters are typically fastest—use them first.
+  </Card>
+  <Card title="Use content search last" icon="magnifying-glass">
+    Content/Summary search can be slow on huge cases—apply after narrowing.
+  </Card>
+  <Card title="Collapse unused groups" icon="folder">
+    Collapsing groups improves scrolling performance in large cases.
+  </Card>
+</CardGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Filters not working / no results">
+    **Possible causes**
+    - Contradictory filters applied
+    - All document types hidden
+    - Date range excludes all documents
+
+    **Fix**
+    - Check Active Filters chips and remove filters one-by-one
+    - Re-enable Document Types “Show All”
+    - Clear all filters and start fresh
+  </Accordion>
+
+  <Accordion title="Documents in the wrong order">
+    - Confirm the sort key
+    - Toggle sort direction
+    - Pick a more meaningful sort key for your current filters (e.g., Date when filtering by date range)
+  </Accordion>
+
+  <Accordion title="Can't find an expected document">
+    **Check**
+    - Filters (clear all)
+    - View Mode (Primary vs Ancillary)
+    - Collapsed groups (expand all)
+    - Content Search for a unique phrase
+  </Accordion>
+
+  <Accordion title="Grouping button disabled">
+    Usually caused by Delete Mode. Exit Delete Mode first.
+  </Accordion>
+
+  <Accordion title="Missing document types in the filter">
+    Only types present in the case appear. This is expected.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Document Sections" icon="file-lines" href="/reviewing-cases/document-sections">
+    Understand section structure, summaries, and metadata
+  </Card>
+
+  <Card title="Executive Summary" icon="sparkles" href="/reviewing-cases/executive-summary">
+    Review AI-generated case summaries and key findings
+  </Card>
+
+  <Card title="Medical Chronology" icon="timeline" href="/reviewing-cases/medical-chronology">
+    Navigate medical events in chronological timeline
+  </Card>
+
+  <Card title="Editing Sections" icon="edit" href="/reviewing-cases/editing-sections">
+    Split, merge, and edit document sections (Admin/Validator)
+  </Card>
+</CardGroup>

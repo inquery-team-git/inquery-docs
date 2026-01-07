@@ -1,0 +1,1643 @@
+---
+title: "Invoice and Payment Extraction"
+---
+
+InQuery's Billing Analysis feature automatically extracts, organizes, and analyzes medical charges and insurance payments from billing documents. This powerful tool helps you understand the financial aspects of a case by breaking down charges by date, facility, and payer.
+
+<Note>
+  **Location:** The Billing Analysis appears at the top of the Document Abstract (left panel) alongside Executive Summary and Case Info. It aggregates billing data across all documents in your case.
+</Note>
+
+### What Gets Extracted
+
+<CardGroup cols={2}>
+  <Card title="Medical Charges" icon="dollar-sign">
+    Service charges from providers, including CPT codes and procedure descriptions
+  </Card>
+  <Card title="Insurance Payments" icon="credit-card">
+    Payments, adjustments, write-offs, and discounts from insurance companies
+  </Card>
+  <Card title="Facility Information" icon="hospital">
+    Provider and facility names for each charge
+  </Card>
+  <Card title="Service Dates" icon="calendar">
+    When services were provided (not billing dates)
+  </Card>
+  <Card title="Outstanding Balances" icon="calculator">
+    Automatic calculation of charges minus payments
+  </Card>
+  <Card title="Medical Record Links" icon="link">
+    Connections between billing and medical documentation
+  </Card>
+</CardGroup>
+
+---
+
+## Accessing Billing Analysis
+
+The billing feature appears in the Case Info section alongside other case-level summaries.
+
+### Opening Billing Data
+
+<Steps>
+  <Step title="Open Your Case">
+    Click on a case from your dashboard
+  </Step>
+  <Step title="Navigate to Case Info">
+    In the left panel, click the **"Executive Summary & Case Info"** tab
+  </Step>
+  <Step title="Scroll to Billing">
+    The billing table appears below Executive Summary
+
+    Look for a table with columns: Date/Facility, Charge Amount, Insurance Owed, Outstanding
+  </Step>
+  <Step title="Expand for Details">
+    Click chevron icons (▼) to expand date/facility groups and see individual entries
+  </Step>
+</Steps>
+
+![Billing Analysis Location](/images/billing-location.png)
+
+<AccordionGroup>
+  <Accordion title="When Billing Data is Available">
+    **Requirements:**
+
+    - Billing documents must be uploaded (EOBs, billing statements, invoices)
+    - Billing extraction must be run (automatic or manual)
+    - At least one charge or payment must be found
+
+    **Document Types That Contain Billing:**
+
+    - Explanation of Benefits (EOB)
+    - Billing statements
+    - Invoices
+    - Payment ledgers
+    - Account summaries
+    - Superbills
+
+    <Info>
+      If you don't see billing data, either no billing documents were uploaded, or billing extraction hasn't been run yet. Contact your admin to request billing extraction.
+    </Info>
+  </Accordion>
+  <Accordion title="Case-Level vs Section-Level Views">
+    **Case-Level View (Default):**
+
+    - Aggregates all billing across all documents in the case
+    - Located at top of Document Abstract
+    - Shows combined totals by facility and date
+    - Best for overall case financial analysis
+
+    **Section-Level View:**
+
+    - Billing for individual document sections
+    - Expand any case-level group to see section details
+    - Click on individual medical record sections to see their billing
+    - Best for verifying specific documents
+
+    **Both views share the same features:**
+
+    - Filtering and sorting
+    - Editing capabilities
+    - Linking to source documents
+    - Export functionality
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Understanding the Billing Table
+
+The billing table organizes charges and payments in a hierarchical structure for easy analysis.
+
+### Table Structure
+
+<AccordionGroup>
+  <Accordion title="Column Breakdown">
+    **Standard Columns:**
+
+    | Column                       | Description                                             |
+    | ---------------------------- | ------------------------------------------------------- |
+    | **Date Subtotal / Facility** | Service date and provider/facility name (grouped rows)  |
+    | **Charge Amount**            | Amount billed by provider for services                  |
+    | **Insurance Owed**           | Amount paid or owed by insurance                        |
+    | **Outstanding**              | Calculated: Charge - Insurance (patient responsibility) |
+    | **Payer** (dynamic)          | One column per insurance company, showing amounts       |
+    | **Reference**                | Page number where entry was found (clickable)           |
+    | **Actions**                  | Copy, edit, delete, include/exclude icons               |
+
+    **Dynamic Payer Columns:**
+
+    - One column automatically created for each unique insurance company
+    - Shows payment amount from that specific payer
+    - "Unknown Payer" column for payments without identified insurance
+    - Helps track which insurers paid what amounts
+
+    ![Billing Table Columns](/images/billing-columns.png)
+  </Accordion>
+  <Accordion title="Hierarchical Organization">
+    The billing table uses a 4-level hierarchy:
+
+    **Level 1: Date + Facility Subtotal**
+
+    ```
+    2024-03-15 - Smith Medical Center
+      Charge: $850.00
+      Insurance: $680.00
+      Outstanding: $170.00
+    ```
+
+    **Level 2: Individual Entries** (click chevron to expand)
+
+    ```
+    └─ Entry 1: Office Visit - CPT 99213
+       Charge: $250.00
+       Insurance: $200.00
+       Page: 15
+    
+    └─ Entry 2: X-Ray - CPT 73560
+       Charge: $600.00
+       Insurance: $480.00
+       Page: 15
+    ```
+
+    **Level 3: Date Totals** (all facilities for one date)
+
+    ```
+    Date Total for 2024-03-15:
+      Charge: $1,200.00 (Smith Medical + Johnson Clinic)
+      Insurance: $960.00
+      Outstanding: $240.00
+    ```
+
+    **Level 4: Facility Totals** (all dates for one facility)
+
+    ```
+    Facility Total - Smith Medical Center:
+      Charge: $5,400.00 (across 6 dates)
+      Insurance: $4,320.00
+      Outstanding: $1,080.00
+    ```
+
+    **Grand Total:**
+
+    - Overall case charges, payments, and outstanding
+    - Shown at bottom of table
+    - Updates automatically as you filter or edit
+  </Accordion>
+  <Accordion title="Color Coding System">
+    Rows are color-coded to show status and highlight issues:
+
+    **🟢 Green Background:**
+
+    - Entry has a charge amount
+    - Successfully linked to a medical record section
+    - Indicates complete documentation (billing + medical records match)
+
+    **🔴 Red Background:**
+
+    - Entry has a charge amount
+    - NOT linked to any medical record section
+    - Missing documentation - may need investigation
+
+    **🟡 Amber Highlight:**
+
+    - Potential duplicate detected
+    - Same facility and date appears multiple times across different sections
+    - Review to determine if truly duplicate or separate services
+
+    **⚪ Gray Text:**
+
+    - Entry is excluded from totals (isIncluded = false)
+    - Still visible but not counted in calculations
+    - Use to remove irrelevant or erroneous entries without deleting
+
+    **🔵 Blue Highlight:**
+
+    - Facility total row
+    - Distinguishes aggregation rows from individual entries
+
+    <Tip>
+      **Red backgrounds indicate missing medical records.** If you see many red entries, check if corresponding medical records were uploaded. This can indicate gaps in documentation.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Breakdown by Date and Facility
+
+The billing system automatically organizes charges by service date and provider facility.
+
+### Date-Based Organization
+
+<AccordionGroup>
+  <Accordion title="How Dates are Organized">
+    **Service Date vs Billing Date:**
+
+    - InQuery extracts the **service date** (when care was provided)
+    - NOT the billing date, posting date, or payment date
+    - Ensures charges align with medical record dates
+
+    **Date Format:**
+
+    - Standardized as YYYY-MM-DD (e.g., 2024-03-15)
+    - Sortable chronologically
+    - Matches medical record date format
+
+    **Date Grouping:**
+
+    ```
+    2024-01-15 (Date header)
+      └─ Smith Medical Center (Facility)
+          └─ Individual charges...
+      └─ Johnson Clinic (Facility)
+          └─ Individual charges...
+    
+    2024-02-20 (Date header)
+      └─ Smith Medical Center
+          └─ Individual charges...
+    ```
+
+    **Benefits:**
+
+    - Quick chronological review
+    - Identify treatment intensity by date
+    - Correlate with medical chronology
+    - Spot gaps in treatment timeline
+  </Accordion>
+  <Accordion title="Date Totals and Analysis">
+    **Automatic Date Aggregation:**
+
+    For each unique service date, InQuery calculates:
+
+    - Total charges across all facilities that date
+    - Total insurance payments for that date
+    - Total outstanding balance for that date
+    - Breakdown by payer for that date
+
+    **Example:**
+
+    ```
+    Date Total for 2024-03-15:
+      Facilities: Smith Medical Center, Johnson Clinic, ABC Radiology
+      Total Charges: $2,150.00
+      Total Insurance: $1,720.00
+      Total Outstanding: $430.00
+    
+      Payer Breakdown:
+        - Blue Cross: $1,200.00
+        - Medicare: $520.00
+    ```
+
+    **Use Cases:**
+
+    - Identify high-cost treatment dates
+    - Track multi-facility treatment days
+    - Correlate with medical events (surgeries, ER visits)
+    - Calculate daily treatment costs
+  </Accordion>
+  <Accordion title="Filtering by Date Range">
+    **Date Filter Options:**
+
+    1. Open filter panel (Filter icon)
+    2. Navigate to "Date" section
+    3. Select specific dates (multi-select)
+    4. Or use date range picker (if available)
+
+    **Use Cases:**
+
+    - Focus on post-incident treatment only
+    - Exclude pre-existing condition treatment
+    - Analyze specific time period (e.g., first 3 months post-injury)
+    - Review recent treatment costs
+
+    **Example Workflow:**
+
+    ```
+    Scenario: Incident date = 2024-01-10
+    
+    Filter Steps:
+    1. Select Date filter
+    2. Choose dates from 2024-01-10 onwards
+    3. Review only post-incident charges
+    4. Calculate incident-related costs
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Facility-Based Organization
+
+<AccordionGroup>
+  <Accordion title="How Facilities are Organized">
+    **Facility Identification:**
+
+    - Extracted from billing documents
+    - Provider names, clinic names, hospital names
+    - Includes facility location if specified
+
+    **Facility Grouping:**
+
+    ```
+    Smith Medical Center (Facility Total)
+      └─ 2024-01-15 (Date)
+          └─ Individual charges...
+      └─ 2024-02-20 (Date)
+          └─ Individual charges...
+      └─ 2024-03-15 (Date)
+          └─ Individual charges...
+    ```
+
+    **Automatic Facility Totals:**
+
+    - Sum of all charges from that facility across all dates
+    - Total insurance payments for that facility
+    - Outstanding balance per facility
+    - Treatment frequency (number of visits/dates)
+
+    <Info>
+      **Facility Names Vary:** The same facility might appear with different names (e.g., "Smith Medical Center" vs "Smith Medical Ctr" vs "Dr. Smith"). Use the consolidation feature to standardize names (see Consolidation section).
+    </Info>
+  </Accordion>
+  <Accordion title="Facility Analysis Features">
+    **Facility Comparison:**
+
+    | Facility             | Total Charges | Visits | Avg Per Visit |
+    | -------------------- | ------------- | ------ | ------------- |
+    | Smith Medical Center | \$12,450.00   | 8      | \$1,556.25    |
+    | Johnson Clinic       | \$3,200.00    | 4      | \$800.00      |
+    | ABC Radiology        | \$2,800.00    | 3      | \$933.33      |
+
+    **Use Cases:**
+
+    - Identify most expensive providers
+    - Calculate treatment frequency per facility
+    - Support facility negotiation or selection
+    - Verify treatment locations match medical records
+
+    **Facility Selection:**
+
+    - Checkboxes appear next to facility names
+    - Select multiple for bulk operations
+    - Consolidate facility name variations
+    - Filter to show only selected facilities
+  </Accordion>
+  <Accordion title="Filtering by Facility">
+    **Facility Filter:**
+
+    1. Click Filter icon
+    2. Navigate to "Facility" section
+    3. See all unique facility names
+    4. Select which facilities to show (multi-select)
+    5. Table filters to show only selected facilities
+
+    **Common Filters:**
+
+    - Show only physical therapy facilities
+    - Exclude radiology charges
+    - Focus on primary treating physician
+    - Review hospital vs outpatient costs
+
+    **Example:**
+
+    ```
+    Goal: Calculate only chiropractic treatment costs
+    
+    Steps:
+    1. Open Facility filter
+    2. Select all chiropractic clinic names
+    3. Deselect all other facilities
+    4. Grand total shows only chiropractic charges
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Understanding Charges vs Payments
+
+Billing data includes both what was charged and what insurance paid.
+
+<AccordionGroup>
+  <Accordion title="Medical Charges (Bills)">
+    **What are Charges?**
+
+    - Amounts billed by healthcare providers for services
+    - Appear in "Charge Amount" column
+    - Include CPT codes and procedure descriptions
+    - Represent the provider's fee schedule, not final cost
+
+    **Charge Components:**
+
+    ```
+    Example Charge Entry:
+    Date: 2024-03-15
+    Facility: Smith Medical Center
+    Charge Amount: $850.00
+    Description: Office Visit (CPT 99213), X-Ray (CPT 73560)
+    Reference: Page 15
+    ```
+
+    **Extraction Principles:**
+
+    - Only explicit charges extracted (no inference or calculation)
+    - If document shows summary total, only summary extracted
+    - If no summary, individual line items extracted
+    - No duplication within same facility+date combination
+
+    <Warning>
+      **Charges ≠ Final Cost:** The charge amount is what the provider billed, not necessarily what was paid or what the patient owes. See Outstanding Balance for patient responsibility.
+    </Warning>
+  </Accordion>
+  <Accordion title="Insurance Payments">
+    **What are Payments?**
+
+    - Amounts paid or owed by insurance companies
+    - Appear in "Insurance Owed" column and payer-specific columns
+    - Include payments, adjustments, discounts, and write-offs
+    - Represent actual insurance contribution
+
+    **Payment Components:**
+
+    ```
+    Example Payment Entry:
+    Date: 2024-03-15
+    Facility: Smith Medical Center
+    Payer: Blue Cross Blue Shield
+    Insurance Owed: $680.00
+    Reference: Page 23 (EOB)
+    
+    Breakdown:
+      - Payment: $680.00
+      - Adjustment: -$170.00 (contractual)
+      - Patient Responsibility: $170.00
+    ```
+
+    **Payment Types Tracked:**
+
+    - **Payments:** Actual amounts paid by insurance
+    - **Adjustments:** Contractual discounts negotiated
+    - **Write-offs:** Amounts forgiven or uncollectible
+    - **Discounts:** Reductions applied to charges
+
+    **Payer Identification:**
+
+    - Insurance company name extracted from EOB
+    - Multiple payers per case tracked separately
+    - "Unknown Payer" for unidentified payments
+    - Dynamic columns show per-payer amounts
+  </Accordion>
+  <Accordion title="Outstanding Balance Calculation">
+    **How Outstanding is Calculated:**
+
+    ```
+    Outstanding = Charge Amount - Insurance Owed
+    ```
+
+    **Interpretation:**
+
+    - **Positive Outstanding:** Patient owes money (most common)
+    - **Zero Outstanding:** Fully paid by insurance
+    - **Negative Outstanding:** Overpaid (refund due or accounting error)
+
+    **Example Calculations:**
+
+    ```
+    Scenario 1: Standard Copay
+    Charge: $850.00
+    Insurance: $680.00
+    Outstanding: $170.00 (patient copay/deductible)
+    
+    Scenario 2: Fully Covered
+    Charge: $500.00
+    Insurance: $500.00
+    Outstanding: $0.00 (no patient responsibility)
+    
+    Scenario 3: Overpayment
+    Charge: $300.00
+    Insurance: $350.00
+    Outstanding: -$50.00 (refund or credit)
+    ```
+
+    **Use Cases:**
+
+    - Calculate total patient out-of-pocket costs
+    - Identify unpaid balances for demand letters
+    - Verify insurance coverage adequacy
+    - Support medical specials calculations
+  </Accordion>
+  <Accordion title="Net Amount Filtering">
+    **Filter by Outstanding Status:**
+
+    When grouped by facility or date, you can filter by net outstanding amount:
+
+    **Show Zero (\$0 outstanding):**
+
+    - Fully paid by insurance
+    - No patient responsibility
+    - Useful for identifying what insurance covered
+
+    **Show Positive (patient owes):**
+
+    - Unpaid balances
+    - Copays and deductibles
+    - Important for demand calculations
+
+    **Show Negative (overpaid):**
+
+    - Credits or refunds due
+    - Potential accounting errors
+    - Needs reconciliation
+
+    **How to Use:**
+
+    1. Group by Facility or Date
+    2. Open Filter panel
+    3. Navigate to "Net Amount" section
+    4. Select which statuses to show
+
+    ![Net Amount Filter](/images/net-amount-filter.png)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Filtering and Sorting
+
+Powerful filtering tools help you analyze specific aspects of billing data.
+
+### Filter Options
+
+<AccordionGroup>
+  <Accordion title="Type Filters">
+    **Show Charges / Show Payments:**
+
+    Toggle checkboxes to show or hide:
+
+    - ✅ **Show Charges:** Display all billing entries with charge amounts
+    - ✅ **Show Payments:** Display all payment entries from insurance
+    - Both checked (default): Shows complete financial picture
+    - Only Charges: Focus on what was billed
+    - Only Payments: Focus on what insurance paid
+
+    **Use Cases:**
+
+    - Show only charges for medical specials calculation
+    - Show only payments to verify insurance coverage
+    - Compare charges vs payments side-by-side
+  </Accordion>
+  <Accordion title="Dimension Filters">
+    **Multi-Select Filters:**
+
+    Filter by multiple criteria simultaneously:
+
+    **Reference (Page Number):**
+
+    - Select specific pages
+    - Show billing from certain documents only
+    - Useful for isolating specific billing statements
+
+    **Facility:**
+
+    - Select which providers to show
+    - Hide irrelevant facilities
+    - Focus on primary treating providers
+
+    **Payer:**
+
+    - Select which insurance companies to show
+    - Analyze specific insurer's coverage
+    - Identify primary vs secondary insurance payments
+
+    **Date:**
+
+    - Select specific service dates
+    - Multi-select non-contiguous dates
+    - Focus on specific treatment periods
+
+    **How to Use Multi-Select:**
+
+    1. Click Filter icon
+    2. Navigate to dimension (Reference, Facility, Payer, or Date)
+    3. Check boxes for items to show
+    4. Uncheck "All" to enable filtering
+    5. Select specific items
+    6. Click Apply or close filter panel
+
+    ![Multi-Select Filters](/images/billing-multiselect.png)
+  </Accordion>
+  <Accordion title="Amount Range Filters">
+    **Charge Amount Range:**
+
+    Filter to show only charges within a specific dollar range:
+
+    1. Enable "Charge Amount" filter toggle
+    2. Set **Minimum** (e.g., \$500.00)
+    3. Set **Maximum** (e.g., \$2,000.00)
+    4. Only charges in that range appear
+
+    **Use Cases:**
+
+    - Find large charges above certain threshold
+    - Exclude small charges (e.g., \< \$50)
+    - Identify mid-range routine care
+    - Focus on expensive procedures
+
+    **Payment Amount Range:**
+
+    Same as charge range, but for insurance payments:
+
+    1. Enable "Payment Amount" filter toggle
+    2. Set minimum and maximum
+    3. Filter to specific payment ranges
+
+    **Use Cases:**
+
+    - Find large insurance payments
+    - Identify small or missing payments
+    - Verify payment thresholds
+
+    **Example:**
+
+    ```
+    Goal: Find all major procedures (charges > $1,000)
+    
+    Filter Settings:
+    - Enable Charge Amount filter
+    - Minimum: $1,000.00
+    - Maximum: (leave blank for unlimited)
+    
+    Result: Shows only significant charges, hiding routine visits
+    ```
+  </Accordion>
+  <Accordion title="Combined Filtering">
+    **Filters Work Together:**
+
+    All filters combine with AND logic - each filter narrows results further.
+
+    **Example: Complex Filter**
+
+    ```
+    Goal: Show only high-dollar physical therapy charges with no insurance payment
+    
+    Filter Combination:
+    1. Facility: Select "ABC Physical Therapy"
+    2. Charge Amount: Minimum $200.00
+    3. Payment Amount: Maximum $0.00
+    4. Type: Show Charges only
+    
+    Result: High-cost PT sessions with no insurance coverage
+    ```
+
+    **Clear Filters:**
+
+    - "Clear All Filters" button resets everything
+    - Or uncheck individual filters to remove them
+    - Totals recalculate automatically as you filter
+  </Accordion>
+</AccordionGroup>
+
+---
+
+### Sorting Options
+
+<AccordionGroup>
+  <Accordion title="How Billing Data is Sorted">
+    **Default Sort Order:**
+
+    Billing entries are sorted by multiple criteria in this priority:
+
+    1. **Date** (chronological, oldest first)
+    2. **Facility** (alphabetical)
+    3. **Type** (charges before payments)
+    4. **Reference** (page number, numerically)
+
+    This ensures logical organization by service date, then provider, then document source.
+  </Accordion>
+  <Accordion title="Grouping/View Modes">
+    Change how billing data is grouped for different analysis perspectives:
+
+    **By Date (Default):**
+
+    ```
+    2024-01-15
+      └─ Smith Medical Center
+      └─ Johnson Clinic
+    2024-02-20
+      └─ Smith Medical Center
+    ```
+
+    Best for chronological analysis
+
+    **By Facility:**
+
+    ```
+    Smith Medical Center
+      └─ 2024-01-15
+      └─ 2024-02-20
+    Johnson Clinic
+      └─ 2024-01-15
+    ```
+
+    Best for provider comparison
+
+    **By Reference (Page):**
+
+    ```
+    Page 15
+      └─ All entries from page 15
+    Page 23
+      └─ All entries from page 23
+    ```
+
+    Best for document verification
+
+    **By Payer:**
+
+    ```
+    Blue Cross Blue Shield
+      └─ All BCBS payments
+    Medicare
+      └─ All Medicare payments
+    ```
+
+    Best for insurance analysis
+
+    **How to Change:**
+
+    - Look for "Group By" or "View" dropdown
+    - Select desired grouping mode
+    - Table reorganizes automatically
+    - Totals recalculate for new grouping
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Linking to Medical Records
+
+InQuery automatically attempts to link billing charges to corresponding medical documentation.
+
+<AccordionGroup>
+  <Accordion title="How Linking Works">
+    **Automatic Matching Process:**
+
+    When billing is extracted, InQuery runs a matching algorithm that:
+
+    1. **Compares Dates:**
+       - Matches billing service date to medical record dates
+       - Tolerates small date variations (same day or adjacent days)
+    2. **Analyzes Content:**
+       - Compares billing descriptions to medical record text
+       - Looks for similar procedures, diagnoses, provider names
+       - Uses AI similarity scoring
+    3. **Checks Facilities:**
+       - Matches facility names between billing and medical records
+       - Handles name variations
+    4. **Assigns Links:**
+       - Sets `section_id` to matching medical record section
+       - Stores `medical_filename`, `medical_page_number`, `medical_fileID`
+       - Enables navigation to source medical documentation
+
+    **Link Quality Indicators:**
+
+    - 🟢 **Green background:** Successfully linked
+    - 🔴 **Red background:** No link found (missing medical records)
+  </Accordion>
+  <Accordion title="Viewing Linked Medical Records">
+    **For Linked Entries (Green):**
+
+    Each linked billing entry shows:
+
+    - `medical_filename`: Which medical record file
+    - `medical_page_number`: Specific page in that file
+    - `medical_fileID`: Unique file identifier
+
+    **How to Navigate:**
+
+    1. Look for the medical record information in the billing row
+    2. Click on the filename or page number (if clickable)
+    3. PDF viewer jumps to that medical record
+    4. Page displays with context for the charge
+
+    **Benefits:**
+
+    - Verify charges match documented services
+    - Find supporting medical necessity documentation
+    - Cross-reference billing with treatment notes
+    - Build demand letter medical specials section
+
+    ![Linked Medical Records](/images/billing-linked-records.png)
+  </Accordion>
+  <Accordion title="Handling Unlinked Entries (Red)">
+    **Why Entries Are Unlinked:**
+
+    Red background indicates billing with no medical record link. Common reasons:
+
+    1. **Missing Medical Records:**
+       - Medical documentation not uploaded
+       - Provider notes not in file set
+       - Gap in medical records
+    2. **Date Mismatch:**
+       - Billing date doesn't match any medical record dates
+       - Service date extraction error
+       - Post-dated billing
+    3. **Facility Mismatch:**
+       - Facility name variation too different
+       - External provider not in medical records
+       - Specialty services (lab, radiology) processed separately
+
+    **What to Do:**
+
+    <Steps>
+      <Step title="Verify Medical Records">
+        Check if medical documentation for that date/facility was uploaded
+      </Step>
+      <Step title="Request Missing Records">
+        If truly missing, request records from provider
+      </Step>
+      <Step title="Manual Review">
+        Read medical records around that date to find matching documentation
+      </Step>
+      <Step title="Add Note">
+        Document investigation in sticky note on billing entry
+      </Step>
+      <Step title="Exclude if Irrelevant">
+        If charge is unrelated to case, exclude from totals (eye icon)
+      </Step>
+    </Steps>
+    <Warning>
+      **Red entries in demand letters:** Unlinked charges are weaker in demand letters because they lack supporting medical documentation. Prioritize obtaining missing medical records.
+    </Warning>
+  </Accordion>
+  <Accordion title="Sections Mode">
+    **What is Sections Mode?**
+
+    A specialized extraction mode that focuses on linking billing to medical records:
+
+    **How it works:**
+
+    1. Processes all billing entries with charges
+    2. Runs parallel matching against all medical record sections
+    3. Updates links based on date, description, and facility matching
+    4. Provides detailed match quality scoring
+
+    **When to use:**
+
+    - After uploading new medical records
+    - To improve linking accuracy
+    - When many red (unlinked) entries exist
+    - To re-run matching with better algorithms
+
+    **How to run (Admin):**
+
+    1. Click "Rerun Billing" or similar option
+    2. Select "Sections Mode"
+    3. Confirm and wait for processing
+    4. Check results - red entries should turn green if matches found
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Navigating to Source Documents
+
+Every billing entry links back to its source billing document for verification.
+
+<AccordionGroup>
+  <Accordion title="Reference Field">
+    **What is Reference?**
+
+    - Page number where billing entry was extracted
+    - Appears in "Reference" column
+    - Clickable link to jump to source page in PDF viewer
+
+    **Format:**
+
+    - Simple: "15" (page 15 of current file)
+    - With filename: "EOB_BCBS.pdf p.15"
+    - With Bates: "MEDICAL_p.015" (if Bates numbering enabled)
+    - Page ranges: "p.15 - p.17" (multi-page entries)
+
+    **How to Navigate:**
+
+    1. Click on the reference number
+    2. PDF viewer jumps to that page
+    3. Billing document displays
+    4. Review original source for verification
+  </Accordion>
+  <Accordion title="Verifying Billing Entries">
+    **Best Practice Workflow:**
+
+    <Steps>
+      <Step title="Review Entry in Table">
+        Look at charge amount, facility, date, description
+      </Step>
+      <Step title="Click Reference">
+        Navigate to source billing document page
+      </Step>
+      <Step title="Verify Accuracy">
+        Confirm:
+
+        - Amount matches document
+        - Date is correct
+        - Facility name is accurate
+        - Description is complete
+      </Step>
+      <Step title="Check Medical Link">
+        If entry is green, verify linked medical record makes sense
+      </Step>
+      <Step title="Take Action">
+        - Edit if errors found
+        - Add note with verification details
+        - Color code or exclude if needed
+      </Step>
+    </Steps>
+  </Accordion>
+  <Accordion title="Multi-Page Entries">
+    **When Entries Span Pages:**
+
+    Some billing entries (especially detailed EOBs) span multiple pages:
+
+    ```
+    Reference: p.15 - p.17
+    ```
+
+    **How to review:**
+
+    1. Click reference link
+    2. PDF viewer goes to first page (p.15)
+    3. Manually scroll to subsequent pages (p.16, p.17)
+    4. Review all pages for complete context
+
+    **Why this happens:**
+
+    - Detailed EOBs with many line items
+    - Summary tables continued on next page
+    - Multi-facility billing statements
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Editing Billing Information
+
+<Note>
+  **Admin/Validator Feature:** Editing billing data requires admin or validator privileges. Regular users can view and filter but cannot edit.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="Inline Cell Editing">
+    **Editable Fields:**
+
+    Click any cell to edit:
+
+    - **Date** - Service date
+    - **Facility** - Provider/facility name
+    - **Charge Amount** - Billed amount
+    - **Insurance Owed** - Payment amount
+    - **Payer** - Insurance company name
+    - **Reference** - Page number
+    - **Description** - Charge details (if available)
+
+    **How to Edit:**
+
+    <Steps>
+      <Step title="Click Cell">
+        Click on the cell you want to edit
+
+        Cell becomes editable (input field or dropdown)
+      </Step>
+      <Step title="Make Changes">
+        Type new value
+
+        For dates, use date picker or YYYY-MM-DD format
+      </Step>
+      <Step title="Save">
+        Press **Enter** to save
+
+        Or click outside cell to auto-save
+      </Step>
+      <Step title="Cancel">
+        Press **Escape** to cancel without saving
+      </Step>
+    </Steps>
+    **Auto-Features:**
+
+    - Table re-sorts automatically if editing date or facility
+    - Totals recalculate automatically
+    - Filters reapply after edit
+    - Changes save to backend immediately
+
+    ![Inline Editing](/images/billing-inline-edit.png)
+  </Accordion>
+  <Accordion title="Adding New Entries">
+    **Two Ways to Add:**
+
+    **Method 1: Add Row Button (Bottom)**
+
+    1. Scroll to bottom of billing table
+    2. Click **"+ Add Row"** button
+    3. Empty row appears
+    4. Fill in all fields
+    5. Press Enter to save
+
+    **Method 2: Inline Add (After Row)**
+
+    1. Click **\+** icon next to any existing row
+    2. New row appears below that row
+    3. Pre-filled with context from previous row (date, facility)
+    4. Edit as needed
+    5. Save
+
+    **All Fields Optional:**
+
+    - Add as much or as little information as available
+    - Leave blank fields empty
+    - Minimum: At least Date or Facility recommended
+
+    **Use Cases:**
+
+    - Add manually calculated totals
+    - Include charges from non-digital billing
+    - Add estimates for pending bills
+    - Fill gaps in extraction
+  </Accordion>
+  <Accordion title="Deleting Entries">
+    **Individual Row Deletion:**
+
+    1. Hover over row
+    2. Click **trash icon** (🗑️)
+    3. Confirm deletion
+    4. Row is removed
+    5. Totals recalculate
+
+    **Bulk Delete by Page:**
+
+    If an entire page of billing is wrong:
+
+    1. Find the reference/page subtotal row
+    2. Click **trash icon** on subtotal
+    3. Confirm deletion
+    4. All entries from that page are deleted
+
+    **Soft Delete:**
+
+    - Entries are marked as deleted, not permanently removed
+    - Can be restored if needed (contact support)
+    - Audit trail preserved
+
+    <Warning>
+      **Cannot undo:** Once confirmed, deletion takes effect immediately. Review carefully before deleting.
+    </Warning>
+  </Accordion>
+  <Accordion title="Include/Exclude from Totals">
+    **What is Include/Exclude?**
+
+    Toggle whether an entry counts toward totals without deleting it:
+
+    **Eye Icon (👁️):** Entry is included
+
+    - Counts in all totals and calculations
+    - Normal appearance
+
+    **Eye-Off Icon (👁️‍🗨️):** Entry is excluded
+
+    - Grayed out text
+    - NOT counted in totals
+    - Still visible for reference
+
+    **How to Toggle:**
+
+    1. Click eye icon on any entry
+    2. Toggles between included/excluded
+    3. Totals recalculate automatically
+
+    **Use Cases:**
+
+    - Exclude irrelevant charges (e.g., pre-existing treatment)
+    - Remove errors without losing data
+    - Test different total calculations
+    - Mark items as "not part of claim"
+
+    ![Include Exclude](/images/billing-include-exclude.png)
+  </Accordion>
+  <Accordion title="Editing Safety Features">
+    **Multi-Section Protection:**
+
+    If you select multiple document sections simultaneously:
+
+    - Editing is **disabled**
+    - Warning modal appears if attempted
+    - Prevents unintended bulk changes across sections
+
+    **To edit when multiple sections selected:**
+
+    1. Deselect all but one section
+    2. Editing enables for that single section
+    3. Make changes
+    4. Select next section and repeat
+
+    **Why this exists:**
+
+    - Protects against accidental data corruption
+    - Ensures intentional edits only
+    - Prevents cascading errors
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Handling Duplicates
+
+InQuery automatically detects potential duplicate billing entries across multiple documents.
+
+<AccordionGroup>
+  <Accordion title="How Duplicates are Detected">
+    **Duplicate Detection Logic:**
+
+    InQuery flags potential duplicates when:
+
+    - Same facility name
+    - Same service date
+    - Appears in different document sections
+
+    **Example:**
+
+    ```
+    Duplicate Detected:
+    
+    Section A (Original EOB):
+      2024-03-15 - Smith Medical Center: $850.00
+    
+    Section B (Copy of EOB uploaded separately):
+      2024-03-15 - Smith Medical Center: $850.00
+    
+    Result: Amber highlight on both entries
+    ```
+
+    **Visual Indicators:**
+
+    - 🟡 Amber/yellow background on duplicate rows
+    - Warning banner at top: "X duplicate facility-date combinations found"
+    - Count of duplicates shown
+  </Accordion>
+  <Accordion title="Show/Hide Duplicates Toggle">
+    **Control Duplicate Visibility:**
+
+    At the top of the billing table:
+
+    **"Hide Duplicates" Button:**
+
+    - Click to hide all detected duplicate entries
+    - Keeps only the first occurrence of each facility-date
+    - Totals recalculate excluding duplicates
+    - Banner updates to show hidden count
+
+    **"Show Duplicates" Button:**
+
+    - Click to reveal all entries again
+    - Duplicates appear with amber highlight
+    - Totals include all entries
+
+    **Default:** Duplicates are shown (visible)
+
+    ![Duplicate Toggle](/images/billing-duplicates-toggle.png)
+  </Accordion>
+  <Accordion title="Resolving Duplicates">
+    **Manual Review Process:**
+
+    <Steps>
+      <Step title="Identify Duplicates">
+        Look for amber-highlighted entries
+
+        Read warning banner for count
+      </Step>
+      <Step title="Compare Entries">
+        Expand duplicate groups
+
+        Review:
+
+        - Are amounts identical?
+        - Do descriptions match?
+        - Same payer?
+        - Same reference pages?
+      </Step>
+      <Step title="Determine True Duplicates">
+        **True Duplicate:** Same billing entered twice (keep one, remove one)
+
+        **Not Duplicate:** Multiple services same day/facility (keep both)
+      </Step>
+      <Step title="Take Action">
+        **If True Duplicate:**
+
+        - Keep entry from most authoritative source (final EOB vs preliminary)
+        - Delete or exclude the duplicate entry
+        - Totals update automatically
+
+        **If Not Duplicate:**
+
+        - Leave both entries
+        - Add note explaining they're distinct services
+        - Amber highlight will persist (expected)
+      </Step>
+    </Steps>
+  </Accordion>
+  <Accordion title="Common Duplicate Scenarios">
+    **Scenario 1: Duplicate EOB Upload**
+
+    ```
+    Cause: Same EOB PDF uploaded in two different files
+    Solution: Keep one, delete the other
+    ```
+
+    **Scenario 2: Multiple Services Same Day**
+
+    ```
+    Cause: Patient had multiple procedures same day at same facility
+    Example: Office visit + X-ray on same date
+    Solution: Keep both (not truly duplicates)
+    ```
+
+    **Scenario 3: Primary vs Secondary Insurance**
+
+    ```
+    Cause: Same charge, different payers (primary vs secondary)
+    Solution: Keep both (different insurance payments)
+    ```
+
+    **Scenario 4: Adjusted Billing**
+
+    ```
+    Cause: Initial bill + corrected bill for same service
+    Solution: Keep final/corrected version, remove initial
+    ```
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Consolidating Data
+
+Standardize facility names, payer names, and dates across all billing entries.
+
+<AccordionGroup>
+  <Accordion title="Facility Name Consolidation">
+    **Why Consolidate Facilities?**
+
+    The same provider may appear with variations:
+
+    ```
+    ❌ Inconsistent:
+    - Smith Medical Center
+    - Smith Medical Ctr
+    - Dr. John Smith - Medical Center
+    - Smith Medical
+    
+    ✅ After Consolidation:
+    - Smith Medical Center (all standardized)
+    ```
+
+    **How to Consolidate:**
+
+    <Steps>
+      <Step title="Enable Checkboxes">
+        Facility checkboxes appear next to facility names in subtotals
+      </Step>
+      <Step title="Select Facilities">
+        Check boxes for all variations of the same facility
+
+        Example: Check all "Smith Medical" variations
+      </Step>
+      <Step title="Click Consolidate Button">
+        Button appears: "Consolidate to [First Selected]"
+
+        First checked facility becomes the canonical name
+      </Step>
+      <Step title="Confirm">
+        Confirmation modal appears
+
+        Shows how many entries will be updated
+      </Step>
+      <Step title="Consolidation Runs">
+        All selected facility names update to match first selection
+
+        Table re-sorts and re-groups automatically
+
+        Single batch API call to backend
+      </Step>
+    </Steps>
+    **Result:**
+
+    - All entries now use consistent facility name
+    - Totals consolidate under single facility
+    - Easier analysis and reporting
+
+    ![Facility Consolidation](/images/billing-facility-consolidation.png)
+  </Accordion>
+  <Accordion title="Payer Name Consolidation">
+    **Why Consolidate Payers?**
+
+    Insurance companies may appear with variations:
+
+    ```
+    ❌ Inconsistent:
+    - Blue Cross Blue Shield
+    - BCBS
+    - Blue Cross
+    - BC/BS of California
+    
+    ✅ After Consolidation:
+    - Blue Cross Blue Shield (standardized)
+    ```
+
+    **How to Consolidate:**
+
+    Same process as facility consolidation:
+
+    1. Select multiple payer name checkboxes
+    2. Click "Consolidate to [First Selected]"
+    3. Confirm
+    4. All payer names update to match first selection
+
+    **Special Handling:**
+
+    - "Unknown Payer" treated specially (empty string in database)
+    - Can consolidate unknowns to identified payer
+    - Can leave unknowns separate if desired
+
+    **Benefits:**
+
+    - Consistent payer columns
+    - Accurate payer totals
+    - Cleaner reporting
+  </Accordion>
+  <Accordion title="Date Consolidation">
+    **Why Consolidate Dates?**
+
+    Sometimes service dates have minor errors:
+
+    ```
+    ❌ Problematic:
+    - 2024-03-15 (correct date)
+    - 2024-03-16 (typo, should be 03-15)
+    
+    ✅ After Consolidation:
+    - 2024-03-15 (both entries)
+    ```
+
+    **How to Consolidate Dates:**
+
+    1. Select multiple date-facility group checkboxes
+    2. Click "Consolidate to [First Selected Date]"
+    3. All entries update to use first selected date
+    4. Preserves facility names (date only changes)
+
+    **Date Normalization:**
+
+    If dates appear in MM/DD/YYYY format instead of standard YYYY-MM-DD:
+
+    1. Look for "Normalize Dates" button
+    2. Button appears only if normalizable dates detected
+    3. Click to convert all dates to YYYY-MM-DD format
+    4. Automatic standardization
+
+    <Info>
+      **Use with caution:** Only consolidate dates when you're certain they should be the same. Review source documents to verify correct date.
+    </Info>
+  </Accordion>
+  <Accordion title="Set All Facilities">
+    **Bulk Facility Assignment:**
+
+    If all billing in a section should use the section's facility/institution:
+
+    1. Find "Set All Facilities" button
+    2. Click to set all entries to section's institution
+    3. Confirmation appears
+    4. All facility fields update in one operation
+
+    **Use Cases:**
+
+    - Section contains only one facility's billing
+    - Facility names were poorly extracted
+    - Quick bulk standardization
+
+    **Prerequisites:**
+
+    - Section must have institution/facility metadata
+    - All entries in section should genuinely be from that facility
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Exporting Billing Data
+
+<AccordionGroup>
+  <Accordion title="Copy to Clipboard (TSV)">
+    **Quick Export for Excel:**
+
+    Copy billing data in tab-separated format for pasting into spreadsheets:
+
+    **How to Copy:**
+
+    1. Click **Copy** icon in billing table
+    2. Choose what to include:
+       - ☑️ Charges
+       - ☑️ Payments
+       - ☐ Both
+    3. Data copies to clipboard
+    4. Open Excel/Google Sheets
+    5. Paste (Ctrl+V or Cmd+V)
+    6. Data appears in formatted table
+
+    **What's Included:**
+
+    - All visible rows (respects current filters)
+    - Headers: Date | Facility | Charge Amount | Insurance Owed | Payer | Reference
+    - Subtotals and totals included
+    - Date totals and facility totals
+    - Grand total
+    - Dynamic payer columns (case-level only)
+    - Outstanding amounts
+
+    ![Copy to Clipboard](/images/billing-copy.png)
+  </Accordion>
+  <Accordion title="JSON Copy/Paste (Admin)">
+    **Advanced Data Export/Import:**
+
+    Admins can copy the entire `billing_info` JSON structure:
+
+    **How to Copy JSON:**
+
+    1. Click "Copy JSON" button (if available)
+    2. Entire billing data structure copies to clipboard
+    3. Paste into text editor or code editor
+    4. View/edit raw JSON
+
+    **How to Paste JSON:**
+
+    1. Click "Paste JSON" button
+    2. Paste JSON text into modal
+    3. Validation runs to check structure
+    4. Click "Import" to update billing data
+    5. All entries replace existing data
+
+    **Use Cases:**
+
+    - Bulk data manipulation in code
+    - Backup billing data
+    - Transfer billing between cases (carefully!)
+    - Advanced troubleshooting
+
+    <Warning>
+      **Expert Feature:** JSON import can overwrite all billing data. Only use if you understand JSON structure and have verified the data.
+    </Warning>
+  </Accordion>
+  <Accordion title="Include in Case Reports">
+    **Download with Case Documents:**
+
+    Billing data can be included in comprehensive case downloads:
+
+    1. Navigate to Download options
+    2. Select report type (PDF, Excel)
+    3. Check "Include Billing Information"
+    4. Generate download
+    5. Billing tables appear in report
+
+    **Report Formats:**
+
+    - PDF: Formatted billing tables with totals
+    - Excel: Spreadsheet with all billing data
+    - Summary: High-level billing totals only
+
+    **What's Included:**
+
+    - All billing entries (or filtered subset)
+    - Facility and date breakdowns
+    - Payer analysis
+    - Outstanding balance calculations
+    - Links to medical records (as references)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Verify Critical Amounts" icon="check-circle">
+    Always navigate to source documents to verify high-dollar charges before using in demand letters
+  </Card>
+  <Card title="Resolve Duplicates Early" icon="copy">
+    Review and resolve duplicate flags as soon as they appear to avoid double-counting
+  </Card>
+  <Card title="Standardize Names" icon="building">
+    Use consolidation features to standardize facility and payer names for cleaner reporting
+  </Card>
+  <Card title="Link to Medical Records" icon="link">
+    Investigate red (unlinked) entries - missing medical documentation weakens demand letters
+  </Card>
+  <Card title="Filter by Date Range" icon="calendar">
+    Exclude pre-incident treatment when calculating incident-related costs
+  </Card>
+  <Card title="Review Outstanding Balances" icon="calculator">
+    Verify outstanding amounts match EOBs before including in patient responsibility calculations
+  </Card>
+</CardGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="No billing data showing">
+    **Possible Causes:**
+
+    - No billing documents uploaded
+    - Billing extraction not run
+    - All entries filtered out
+
+    **Solutions:**
+
+    1. Check if EOBs or billing statements were uploaded
+    2. Contact admin to request billing extraction
+    3. Clear all filters to see if data appears
+    4. Check if you're in the right section/tab
+  </Accordion>
+  <Accordion title="Many entries showing as red (unlinked)">
+    **Possible Causes:**
+
+    - Medical records not uploaded
+    - Date mismatches between billing and medical records
+    - Facility name variations too different
+
+    **Solutions:**
+
+    1. Verify medical records for those dates were uploaded
+    2. Check date formats in billing entries (correct if needed)
+    3. Use facility consolidation to match names
+    4. Run "Sections Mode" to re-attempt linking
+    5. Request missing medical records from providers
+  </Accordion>
+  <Accordion title="Totals seem incorrect">
+    **Possible Causes:**
+
+    - Some entries excluded from totals (eye-off icon)
+    - Duplicates included twice
+    - Filters hiding some data
+    - Currency parsing errors
+
+    **Solutions:**
+
+    1. Check for eye-off icons - re-include if needed
+    2. Hide duplicates and recalculate
+    3. Clear filters to see all data
+    4. Review individual amounts for formatting issues (e.g., "\$1,234.56" should parse correctly)
+    5. Manually verify calculation against source documents
+  </Accordion>
+  <Accordion title="Cannot edit billing entries">
+    **Possible Causes:**
+
+    - Not an admin or validator
+    - Multiple sections selected
+    - Edit mode not enabled
+
+    **Solutions:**
+
+    1. Verify you have admin/validator permissions
+    2. Deselect all but one section
+    3. Look for "Edit Mode" toggle and enable
+    4. Refresh page and try again
+  </Accordion>
+  <Accordion title="Consolidation not working">
+    **Possible Causes:**
+
+    - No items selected
+    - Only one item selected (need 2+)
+    - Network error during save
+
+    **Solutions:**
+
+    1. Ensure at least 2 checkboxes are selected
+    2. Check internet connection
+    3. Try again with smaller selection
+    4. Check browser console for errors
+    5. Contact support if persists
+  </Accordion>
+  <Accordion title="Reference links not navigating to pages">
+    **Possible Causes:**
+
+    - Page number format incorrect
+    - Source file not available
+    - PDF viewer not loaded
+
+    **Solutions:**
+
+    1. Manually navigate to listed page number
+    2. Check if source file exists in file list
+    3. Refresh page to reload PDF viewer
+    4. Verify reference format is valid
+  </Accordion>
+</AccordionGroup>

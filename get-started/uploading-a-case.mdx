@@ -1,0 +1,479 @@
+---
+description: "Complete guide to creating and managing cases in InQuery"
+title: "Uploading a Case"
+---
+
+## Overview
+
+Use this guide to create a case, upload documents, and manage changes later (upload more files, add services, or delete a case).
+
+<CardGroup cols={3}>
+  <Card title="Create & Upload" icon="upload">
+    Create a case and upload PDFs
+  </Card>
+  <Card title="Add Files Later" icon="file-circle-plus">
+    Upload additional documents anytime
+  </Card>
+  <Card title="Add Services Later" icon="gears">
+    Request more processing without re-uploading
+  </Card>
+</CardGroup>
+
+---
+
+## Create a Case and Upload Files
+
+<Steps>
+  <Step title="Open the Create Case modal">
+    From your dashboard, click <b>New Case</b>.
+
+    ![Create Case Button](/images/create-case-button.png)
+  </Step>
+
+  <Step title="Enter case information">
+    Enter a <b>Patient Name</b> or <b>Case Number</b> (required).
+
+    - Example: <code>John Doe</code> or <code>CASE-2024-001</code>
+
+    ![Case Information](/images/case-info-input.png)
+  </Step>
+
+  <Step title="Select a case type">
+    Choose the case type for this upload (available types depend on your organization).
+
+    - Examples: Personal Injury, Workers’ Compensation, Medical Malpractice, Auto Accident, Slip and Fall
+
+    <Info>
+      If you don’t see what you need, select <b>+ Add New Case Type...</b> to request a new type for your organization.
+    </Info>
+
+    ![Case Type Selection](/images/case-type-dropdown.png)
+  </Step>
+
+  <Step title="Select a project (optional)">
+    If your organization has Projects enabled, you can assign the case to a project.
+
+    <AccordionGroup>
+      <Accordion title="What are Projects?">
+        Projects help you group cases by:
+
+        - Client or law firm
+        - Practice area / case type
+        - Date range or fiscal year
+        - Internal workflows (e.g., <b>Demo</b> or <b>Pilot</b>)
+      </Accordion>
+      <Accordion title="Who can create Projects?">
+        Only organization admins can create new projects.
+      </Accordion>
+    </AccordionGroup>
+
+    <Note>
+      If you don’t see a project dropdown, your organization hasn’t enabled Projects. Contact your org admin if you need this feature.
+    </Note>
+
+    ![Project Selection](/images/project-dropdown.png)
+  </Step>
+
+  <Step title="Select services">
+    Services determine what InQuery will do with your documents.
+
+    <Note>
+      You can start with the basics and request additional services later.
+    </Note>
+
+    ![Service Selection](/images/service-checkboxes.png)
+  </Step>
+
+  <Step title="Upload PDFs">
+    <b>Supported format:</b> PDF only
+
+    <AccordionGroup>
+      <Accordion title="Two ways to upload">
+        1. <b>Drag and drop</b> PDFs into the upload area  
+        2. <b>Click to browse</b> and select one or multiple PDFs
+      </Accordion>
+      <Accordion title="What happens during upload">
+        - Files are validated as PDFs  
+        - Page count is extracted per file  
+        - Total case page count is shown  
+        - Upload progress displays for each file
+      </Accordion>
+    </AccordionGroup>
+
+    <Warning>
+      <b>Page Limits:</b> Your organization may have a page quota. If you exceed your available pages, you’ll see an error showing total allowed, remaining quota, and attempted pages.
+    </Warning>
+
+    ![File Upload Area](/images/file-upload-drag-drop.png)
+  </Step>
+
+  <Step title="Create the case">
+    Choose one:
+
+    - <b>Create Case</b> — Creates the case and returns you to the dashboard  
+    - <b>Create and Add Another</b> — Creates the case and keeps the modal open (for bulk uploads)
+
+    <AccordionGroup>
+      <Accordion title="Upload progress details">
+        - A progress bar shows upload status  
+        - Large files upload in chunks for reliability  
+        - You can abort the upload if needed
+      </Accordion>
+    </AccordionGroup>
+
+    ![Create Case Buttons](/images/create-case-buttons.png)
+  </Step>
+</Steps>
+
+### After Upload
+
+Once created:
+
+- The case appears in your dashboard immediately
+- Processing runs automatically in the background
+- You’ll receive a notification when results are ready
+
+---
+
+## Services (Quick Guide)
+
+If you want the full breakdown, see **Managing Services**. This section is the short version so the page stays scannable.
+
+<CardGroup cols={2}>
+  <Card title="Indexing (Default)" icon="list-check">
+    Organizes documents, detects types/dates/authors, sorts chronologically, and generates document-level summaries.
+  </Card>
+  <Card title="Medical Chronology" icon="timeline">
+    Extracts medical events and builds a timeline. <b>Required</b> for Demand Letters.
+  </Card>
+  <Card title="Case Info" icon="table">
+    Extracts structured case facts (patient info, incident, insurance, providers, key dates).
+  </Card>
+  <Card title="Demand Letters" icon="file-pen">
+    Generates claim-specific demand letters. Available only if enabled for your organization.
+  </Card>
+</CardGroup>
+
+<AccordionGroup>
+  <Accordion title="Indexing details">
+    **What it does**
+    - Creates a document index
+    - Identifies document types, dates, authors, and institutions
+    - Organizes documents chronologically
+    - Provides document-level summaries
+
+    **Output**
+    - Organized document index
+    - Document type classifications
+    - Basic document metadata
+
+    <Info>
+      Indexing is often configured as <b>ALWAYS</b> for your case type.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Medical Chronology details">
+    **What it does**
+    - Extracts medical events and creates a chronological timeline of care
+    - Captures visits, diagnoses, procedures, meds, tests/imaging, hospitalizations
+
+    **Output**
+    - Detailed medical timeline and event summaries
+    - Provider/facility info
+    - Diagnosis/treatment tracking
+
+    **Dependencies**
+    - Required if you select Demand Letters
+
+    ![Medical Chronology Example](/images/medical-chronology-sample.png)
+
+    <Warning>
+      If you uncheck Medical Chronology, Demand Letters will be unchecked automatically.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Case Info (Structured Extraction) details">
+    **What it does**
+    - Extracts structured data such as:
+      - Patient demographics
+      - Incident details
+      - Insurance info
+      - Provider info
+      - Key dates/locations
+      - Injury descriptions
+
+    **Output**
+    - Structured fields and key facts for fast reference and reporting
+
+    ![Case Info Extraction](/images/case-info-structured.png)
+  </Accordion>
+
+  <Accordion title="Demand Letters details">
+    **What it is**
+    - AI-generated demand letters based on medical records
+    - Customized by claim type (BI, UM, UIM, PIP/NF)
+
+    **Requirements**
+    - Enabled by your organization (<code>show_demand_letter</code>)
+    - Requires Medical Chronology
+
+    ![Demand Letter Selection](/images/demand-letter-multiselect.png)
+
+    <AccordionGroup>
+      <Accordion title="Available demand letter types">
+        - <b>Bodily Injury (BI)</b> — standard third-party injury demand  
+        - <b>Uninsured Motorist (UM)</b> — at-fault has no insurance / hit-and-run  
+        - <b>Underinsured Motorist (UIM)</b> — at-fault limits are insufficient  
+        - <b>PIP/No-Fault (PIP/NF)</b> — no-fault benefit-focused claims
+      </Accordion>
+      <Accordion title="Output">
+        - A complete demand letter per type selected
+        - Medical summary, damages, and settlement demand
+        - Professional formatting ready for review
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  <b>Common combos</b>
+
+  - Personal Injury: Indexing + Chronology + Case Info + Demand Letter (BI)  
+  - Auto (serious): Indexing + Chronology + Case Info + Demand Letters (BI + UIM)  
+  - Workers’ Comp: Indexing + Chronology + Case Info  
+  - Initial review: Indexing + Case Info
+</Tip>
+
+---
+
+## Uploading Additional Files
+
+You can upload additional PDFs to an existing case at any time.
+
+<AccordionGroup>
+  <Accordion title="When to upload more files" icon="file-circle-plus">
+    - New records received from providers
+    - Updated billing statements
+    - Correspondence or legal documents
+    - Expert reports
+    - Supplemental medical evaluations
+  </Accordion>
+
+  <Accordion title="How to upload more files" icon="upload">
+    1. Open the case from your dashboard  
+    2. Click <b>Upload Files</b> / <b>Add Documents</b>  
+    3. Drag-and-drop PDFs or browse to select  
+    4. Monitor progress (large files upload in chunks)  
+    5. New files are processed automatically using the case’s selected services
+
+    ![Upload Additional Files Button](/images/upload-additional-files.png)
+
+    <Note>
+      Additional files go through the same processing pipeline and are added to your index/chronology/results based on services selected.
+    </Note>
+
+    <Warning>
+      Additional uploads count toward your organization’s page quota.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="File categories (if enabled)" icon="tags">
+    - <b>IME File (Regular Case Documents)</b>: medical records, bills, test results, standard documents  
+    - <b>Cover Letter</b>: attorney correspondence, cover sheets, special cover documents
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Requesting Additional Services
+
+If you need more processing after the initial upload, you can request additional services for the same case.
+
+<AccordionGroup>
+  <Accordion title="When to request more services" icon="gears">
+    - You started with review-only and now need a demand letter
+    - You want to add Case Info extraction after indexing
+    - You want additional demand letter types
+  </Accordion>
+
+  <Accordion title="How to request additional services" icon="square-plus">
+    1. Open the case  
+    2. Click <b>Request Additional Services</b> / <b>Add Services</b>
+
+    ![Request Additional Services Button](/images/request-services-button.png)
+
+    3. Select services to add (existing ones appear grayed out)
+
+    ![Add Services Modal](/images/add-services-modal.png)
+
+    4. Click <b>Request Services</b>
+  </Accordion>
+</AccordionGroup>
+
+<Steps>
+  <Step title="What happens next">
+    Your case may temporarily move to a <b>pending</b> state while additional processing runs.
+  </Step>
+  <Step title="Case returns with new outputs">
+    When processing completes, the case becomes visible again with the newly added service results.
+  </Step>
+  <Step title="Notification">
+    You’ll receive a notification when the additional services are ready.
+  </Step>
+</Steps>
+
+<Warning>
+  <b>Important:</b> When you request additional services, your case can become temporarily hidden while it’s being updated. It isn’t deleted.
+</Warning>
+
+<Info>
+  **Dependencies & billing**
+  - Demand Letters require Medical Chronology (add together if needed)  
+  - You can add services, but you cannot remove services  
+  - Adding services doesn’t consume additional pages (you’ve already been charged for the pages uploaded)
+</Info>
+
+---
+
+## Deleting a Case
+
+<Warning>
+  You can only delete cases that <b>you created</b>.
+</Warning>
+
+<Steps>
+  <Step title="Open the case">
+    Navigate to the case from your dashboard.
+  </Step>
+  <Step title="Click Delete">
+    Look for <b>Delete Case</b> / a trash icon / the (⋮) menu on the case page.
+
+    ![Delete Case Button](/images/delete-case-button.png)
+  </Step>
+  <Step title="Confirm deletion">
+    Review details and confirm you’re deleting the correct case.
+  </Step>
+</Steps>
+
+<AccordionGroup>
+  <Accordion title="What happens when you delete a case">
+    - InQuery uses a <b>soft delete</b> (case is hidden but preserved for audit)
+    - Deletion cannot be undone by end users
+    - If you need recovery, contact your organization admin or InQuery support
+  </Accordion>
+
+  <Accordion title="Alternative to deletion">
+    If you just want to reduce clutter:
+    - Use Projects to separate inactive cases
+    - Filter your dashboard to show only active cases
+    - Use search to find cases when needed
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Upload Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Organize Before Upload" icon="folder-tree">
+    Gather documents, remove duplicates, ensure PDFs, and name files clearly.
+  </Card>
+  <Card title="Check Page Limits" icon="gauge-high">
+    Confirm your page quota and plan large uploads accordingly.
+  </Card>
+  <Card title="Select Services Wisely" icon="list-check">
+    Start with essentials; request more services later if needed.
+  </Card>
+  <Card title="Use Projects" icon="diagram-project">
+    Assign cases to projects and align naming conventions with your team.
+  </Card>
+</CardGroup>
+
+<AccordionGroup>
+  <Accordion title="Upload checklist">
+    - PDFs only  
+    - Files named clearly  
+    - Page quota checked  
+    - Correct case type selected  
+    - Services selected  
+    - Correct project chosen (if applicable)  
+    - Patient name / case number entered correctly
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Upload fails or stalls">
+    **Possible causes**
+    - Poor internet connection
+    - Browser issues
+    - File too large
+
+    **Solutions**
+    - Check internet connection
+    - Try a different browser (Chrome recommended)
+    - Split large PDFs into smaller files
+    - Refresh and try again
+  </Accordion>
+
+  <Accordion title="Page quota exceeded error">
+    **Cause:** Your organization has used all available pages
+
+    **Solutions**
+    - Contact your org admin to increase quota
+    - Upload a smaller subset of documents
+    - Prioritize the most important cases
+  </Accordion>
+
+  <Accordion title="Services not appearing">
+    **Cause:** Services may be configured differently for your organization
+
+    **Solutions**
+    - Confirm your case type configuration
+    - Contact your admin about enabling services
+  </Accordion>
+
+  <Accordion title="Cannot delete case">
+    **Cause:** You can only delete cases you created
+
+    **Solutions**
+    - Verify you are the case owner
+    - Ask the case owner to delete
+    - Contact your org admin for help
+  </Accordion>
+
+  <Accordion title="Case not appearing after upload">
+    **Possible causes**
+    - Case is processing
+    - Project filter is applied
+    - Case failed to create
+
+    **Solutions**
+    - Refresh the dashboard
+    - Clear project filters
+    - Check notifications for errors
+    - Contact support if it doesn’t appear within 5 minutes
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Reviewing Cases" icon="file-lines" href="/reviewing-cases">
+    Learn how to review processed cases and extract insights
+  </Card>
+  <Card title="Project Management" icon="diagram-project" href="/project-management">
+    Organize cases using projects and manage team access
+  </Card>
+  <Card title="Managing Services" icon="gears" href="/services">
+    Deep dive into each service type and optimization
+  </Card>
+  <Card title="Team Collaboration" icon="users" href="/team-collaboration">
+    Work with your team on cases and share insights
+  </Card>
+</CardGroup>

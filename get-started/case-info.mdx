@@ -1,0 +1,1002 @@
+---
+title: "Case Info (Structured Extraction)"
+description: "Case Info is InQuery's structured data extraction system that identifies and organizes key clinical information from medical records into searchable tables."
+---
+
+
+<Note>
+  **Availability:** Case Info is only generated when you select **"Case Info (Structured Extraction)"** during case upload. If you didn't select this service, request it via **"Request Additional Services"**.
+</Note>
+
+<CardGroup cols={3}>
+  <Card title="Structured tables" icon="table">
+    Diagnoses, procedures, medications, demographics, and more — organized for fast review.
+  </Card>
+  <Card title="Source-backed" icon="link">
+    Every extraction links back to its source document and page for verification.
+  </Card>
+  <Card title="Built for review" icon="search">
+    Filter, color-code, annotate, and export structured data for downstream work.
+  </Card>
+</CardGroup>
+
+---
+
+## Accessing Case Info
+
+Case Info appears in a dedicated tab alongside the Executive Summary.
+
+<Steps>
+  <Step title="Open a case">
+    Open any case from your dashboard.
+  </Step>
+  <Step title="Open the Case Info tab">
+    In the **left panel**, click **"Executive Summary & Case Info"**.
+  </Step>
+  <Step title="Browse categories">
+    Use the category tabs (ICD Codes, CPT Codes, Medications, etc.) to view different tables.
+  </Step>
+</Steps>
+
+![Case Info Location](/images/case-info-location.png)
+
+<AccordionGroup>
+  <Accordion title="Case Info interface layout">
+    **Top Bar**
+
+    - Category tabs (ICD Codes, CPT Codes, Medications, etc.)
+    - View mode toggle (Section-level vs Case-level)
+    - Refresh and settings buttons
+
+    **Main Area**
+
+    - Table for the selected category
+    - Columns vary by category
+    - Rows expand for details
+
+    **Action Bar**
+
+    - Filter controls
+    - Color coding options
+    - Import/Export buttons
+    - Edit mode toggle (Admin only)
+
+    ![Case Info Interface](/images/case-info-interface.png)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Understanding View Modes
+
+Case Info operates in two distinct modes that show data at different levels of aggregation.
+
+<AccordionGroup>
+  <Accordion title="Case-Level View (Default)">
+    **What it shows:** Aggregated and grouped data across the entire case.
+
+    **How it works**
+
+    - AI groups similar items together intelligently
+    - One row per unique medication/diagnosis/procedure
+    - Shows all mentions across documents
+    - Adds enriched data like timelines and validation
+
+    **When to use**
+
+    - Default for most workflows
+    - Building consolidated lists (meds, diagnoses, procedures)
+    - Exporting a complete view
+
+    **Example**
+
+    ```
+    Lisinopril 10mg
+      • First mentioned: 1/15/2024
+      • Last prescribed: 3/10/2024
+      • 3 mentions across 3 documents
+      • Status: Currently prescribed
+    ```
+
+    ![Case-Level View](/images/case-level-view.png)
+  </Accordion>
+  <Accordion title="Section-Level View">
+    **What it shows:** Raw extractions from each individual document section.
+
+    **How it works**
+
+    - Each row is a single extraction from one document
+    - Duplicates are expected across documents
+    - Shows exact quotes as they appear in source documents
+    - No grouping or deduplication
+
+    **When to use**
+
+    - Verifying extraction correctness
+    - Troubleshooting grouping issues
+    - Understanding context
+
+    **Example**
+
+    ```
+    Document 1 (1/15/2024): Lisinopril 10mg
+    Document 2 (2/20/2024): Lisinopril 10 mg daily
+    Document 3 (3/10/2024): Lisinopril 10mg PO daily
+    ```
+
+    ![Section-Level View](/images/section-level-view.png)
+  </Accordion>
+  <Accordion title="Switching between views">
+    **Toggle Location:** Top-right of the Case Info interface.
+
+    **How to switch**
+
+    1. Find the **View** dropdown/toggle
+    2. Select **Case-level** or **Section-level**
+    3. The table refreshes
+
+    **What persists**
+
+    - Selected category (Medications, Procedures, etc.)
+    - Filters
+    - Color coding and notes
+
+    **What changes**
+
+    - Row count
+    - Available columns
+    - Grouping structure
+
+    <Tip>
+      **Default:** Case-level view is recommended for most users. Switch to Section-level primarily for verification and troubleshooting.
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Case Info Categories
+
+Click through the category tabs to view different tables.
+
+<AccordionGroup>
+  <Accordion title="Diagnoses (ICD-10 Codes)">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **ICD-10 Code** (e.g., M54.5)
+        - **Description**
+        - **Exact Quote**
+        - **Source** (document + page)
+        - **Date**
+
+        **Example**
+
+        ```
+        Code: M54.5
+        Description: Low back pain
+        Quote: "Patient diagnosed with M54.5 - Low back pain"
+        Source: Progress Note, Dr. Smith (Page 15)
+        Date: 03/15/2024
+        ```
+      </Accordion>
+      <Accordion title="How to use ICD codes">
+        <CardGroup cols={2}>
+          <Card title="Diagnosis timeline" icon="timeline">
+            Track first appearance and progression over time.
+          </Card>
+          <Card title="Billing verification" icon="dollar-sign">
+            Confirm diagnoses align with billing records.
+          </Card>
+          <Card title="Causation analysis" icon="link">
+            Identify pre-existing vs incident-related diagnoses.
+          </Card>
+          <Card title="Report generation" icon="file-text">
+            Export a complete diagnosis list for reports.
+          </Card>
+        </CardGroup>
+        **Filtering**
+
+        - Search by code or description
+        - Filter by date range
+        - Show only verified codes
+        - Color code by relevance
+      </Accordion>
+      <Accordion title="Verification & validation">
+        - ✅ **Verified:** Code matches ICD-10 database
+        - ⚠️ **Unverified:** Format looks correct but not found
+        - ❌ **Invalid:** Code format is incorrect
+
+        <Warning>
+          **Typos in Source:** If the medical record contains a typo, InQuery extracts it as-is. Verify critical codes against source documents.
+        </Warning>
+      </Accordion>
+      <Accordion title="Table columns">
+        **Case-Level View**
+
+        | Column          | Description              |
+        | --------------- | ------------------------ |
+        | ICD Code        | Diagnostic code          |
+        | Description     | Plain language diagnosis |
+        | First Mentioned | Earliest date            |
+        | Last Mentioned  | Most recent date         |
+        | Mentions        | Count of mentions        |
+        | Verified        | Validation status        |
+        | Actions         | Navigate/edit/color code |
+
+        **Section-Level View**
+
+        | Column       | Description           |
+        | ------------ | --------------------- |
+        | ICD Code     | Diagnostic code       |
+        | Description  | Diagnosis description |
+        | Extracted As | Exact quote           |
+        | Source       | Document title        |
+        | Page         | Page number           |
+        | Date         | Document date         |
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Procedures (CPT Codes)">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **CPT Code** (e.g., 99213)
+        - **Description**
+        - **Exact Quote**
+        - **Source** (document + page)
+        - **Date**
+        - **Verification**
+
+        **Example**
+
+        ```
+        Code: 99213
+        Description: Office visit, established patient, 20-29 minutes
+        Quote: "CPT 99213 - Level 3 E&M visit"
+        Source: Billing Statement (Page 3)
+        Date: 02/15/2024
+        Verified: ✓
+        ```
+      </Accordion>
+      <Accordion title="Common use cases">
+        **Billing review**
+
+        - Verify procedures match billing records
+        - Identify duplicates
+        - Identify unbilled procedures
+
+        **Treatment timeline**
+
+        - Track procedures chronologically
+        - Identify gaps
+        - Document progression
+
+        **Causation**
+
+        - Link procedures to incident vs pre-existing care
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Medications">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **Medication Name**
+        - **Dosage** (strength + frequency)
+        - **Route** (if available)
+        - **Status** (prescribed/administered/discontinued/etc.)
+        - **Timeline** (first/last mention, duration)
+        - **Source** (all documents + pages)
+
+        **Example**
+
+        ```
+        Name: Lisinopril
+        Dosage: 10mg PO daily
+        Status: Currently prescribed
+        First Prescribed: 01/15/2024
+        Last Prescribed: 05/20/2024
+        Mentions: 8 documents
+        ```
+      </Accordion>
+      <Accordion title="Timeline enrichment">
+        **Status categories**
+
+        - **Prescribed**
+        - **Recommended**
+        - **Administered**
+        - **Ordered**
+        - **Discontinued**
+        - **Current**
+
+        **Example timeline**
+
+        ```
+        Lisinopril 10mg
+        └─ 01/15/2024: Prescribed (Dr. Smith)
+        └─ 02/20/2024: Refilled (Dr. Smith)
+        └─ 03/15/2024: Increased to 20mg (Dr. Smith)
+        └─ 04/10/2024: Refilled at 20mg (Dr. Smith)
+        └─ 05/20/2024: Currently taking (Patient report)
+        ```
+
+        <Info>
+          **Timeline Validation:** InQuery flags logically inconsistent timelines (e.g., discontinuation before first prescription).
+        </Info>
+      </Accordion>
+      <Accordion title="Grouping rules">
+        **Same medication, different formats**
+
+        ```
+        ✓ Grouped together:
+        • Lisinopril 10mg
+        • Lisinopril 10 mg
+        • Lisinopril 10mg PO daily
+        • Lisinopril 10 mg by mouth daily
+        ```
+
+        **Different dosages**
+
+        ```
+        ✗ Separate groups:
+        • Lisinopril 10mg
+        • Lisinopril 20mg
+        ```
+
+        **Combination meds**
+
+        ```
+        ✗ Separate from components:
+        • Lisinopril/HCTZ 10/12.5mg
+        • Lisinopril 10mg
+        ```
+      </Accordion>
+      <Accordion title="Using the medications table">
+        **Case-Level Columns**
+
+        | Column               | Description                     |
+        | -------------------- | ------------------------------- |
+        | Medication           | Name and dosage                 |
+        | Last Prescribed Date | Most recent prescription        |
+        | Status               | Prescribed/discontinued/current |
+        | First Mentioned      | Earliest mention                |
+        | Duration             | Time span                       |
+        | Mentions             | Number of documents             |
+        | Valid                | Timeline validation             |
+
+        **Actions**
+
+        - Click medication to expand mentions
+        - Click a mention to navigate to the PDF page
+        - Color code, add note, export
+
+        **Filtering**
+
+        - Search by name
+        - Filter by date range
+        - Show only current meds
+        - Filter by validity
+        - Filter by notes/colors
+      </Accordion>
+      <Accordion title="Medication import">
+        1. Click **Import** in the Medications tab
+        2. Upload **.xlsx** or **.csv**
+        3. Map columns (Medication Name required)
+        4. Preview and confirm import
+
+        **Use cases**
+
+        - Add pharmacy records
+        - Add patient-reported meds
+        - Add OTC meds not documented
+        - Supplement incomplete records
+
+        ![Import Medications](/images/import-medications.png)
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Clinical Procedures (Injections, Surgeries, Imaging)">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **Procedure name**
+        - **Type** (injection/surgery/diagnostic/ablative/device/etc.)
+        - **Date**
+        - **Provider** (if available)
+        - **Location/laterality**
+        - **Outcome** (if available)
+        - **Exact quote**
+
+        **Procedure types**
+
+        - **Injections** (epidurals, joint injections, nerve blocks)
+        - **Surgeries**
+        - **Diagnostics** (X-ray, MRI, CT, EMG/NCS)
+        - **Ablations**
+        - **Device implantations**
+        - **Other** (PT, chiropractic, etc.)
+      </Accordion>
+      <Accordion title="Table features">
+        **Case-Level grouping**
+
+        ```
+        Lumbar Epidural Steroid Injection (Injection)
+          └─ 01/15/2024 - L4-L5, Dr. Smith
+          └─ 02/20/2024 - L5-S1, Dr. Smith
+          └─ 03/25/2024 - L4-L5, Dr. Smith
+        ```
+
+        **Common columns**
+
+        | Column          | Description            |
+        | --------------- | ---------------------- |
+        | Procedure       | Name and type          |
+        | Date            | Most recent occurrence |
+        | Count           | Total occurrences      |
+        | First Performed | Earliest date          |
+        | Locations       | Body sites             |
+        | Providers       | Who performed          |
+      </Accordion>
+      <Accordion title="Magnitude categorization">
+        **High magnitude**
+
+        - Surgeries
+        - Spinal cord stimulator implants
+        - Major ablations
+
+        **Medium magnitude**
+
+        - Epidurals
+        - Joint injections
+        - Radiofrequency ablation
+
+        **Low magnitude**
+
+        - Imaging
+        - Physical therapy
+        - Routine exams
+      </Accordion>
+      <Accordion title="Imaging tracking">
+        **Imaging types**
+
+        - X-rays
+        - MRI
+        - CT
+        - Ultrasound
+        - EMG/NCS
+        - Bone scans
+
+        **Example**
+
+        ```
+        MRI Lumbar Spine
+          └─ 01/20/2024 - Disc herniation L4-L5
+          └─ 06/15/2024 - Follow-up, unchanged
+        ```
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Patient Info">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        <CardGroup cols={3}>
+          <Card title="Demographics" icon="id-card">
+            • Name\
+             • Date of Birth\
+             • Age\
+             • Gender/Sex
+          </Card>
+          <Card title="Physical" icon="ruler">
+            • Height\
+             • Weight\
+             • BMI\
+             • Blood Type
+          </Card>
+          <Card title="Personal" icon="briefcase">
+            • Occupation\
+             • Dominant Hand\
+             • Employment Status
+          </Card>
+        </CardGroup>
+        **Organization**
+
+        - Property-value pairs
+        - Most recent shown first
+        - Historical values preserved
+      </Accordion>
+      <Accordion title="Table structure">
+        ```
+        Property: Height
+          └─ Value: 5'10" (01/15/2024, Progress Note)
+          └─ Value: 70 inches (03/20/2024, Physical Therapy)
+        
+        Property: Weight
+          └─ Value: 185 lbs (06/01/2024, Progress Note)
+          └─ Value: 180 lbs (01/15/2024, Progress Note)
+        ```
+      </Accordion>
+      <Accordion title="Predefined categories">
+        **Always extracted**
+
+        - Name, DOB, Age, Gender/Sex
+        - Height, Weight, BMI, Blood Type
+        - Occupation, Dominant Hand
+
+        <Info>
+          If you need additional categories, contact your organization admin to request expansion of the category list.
+        </Info>
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Drug Screens">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **Test type**
+        - **Date performed**
+        - **Substances tested**
+        - **Results** (positive/negative/values)
+        - **Source** (document + page)
+
+        **Example**
+
+        ```
+        Test: Urine Drug Screen (10-panel)
+        Date: 02/15/2024
+        Results:
+          • THC: Positive
+          • Opiates: Negative
+          • Cocaine: Negative
+          • Benzodiazepines: Positive (prescribed)
+        Source: Lab Report (Page 23)
+        ```
+      </Accordion>
+      <Accordion title="How results are organized">
+        - Grouped by test date
+        - Expanded view shows each substance result
+        - Links back to source page for verification
+      </Accordion>
+      <Accordion title="Common use cases">
+        - Post-incident testing documentation
+        - Pain management compliance
+        - Litigation support (credibility, timelines)
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Social History">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        <CardGroup cols={2}>
+          <Card title="Substances" icon="smoking">
+            • Smoking/Tobacco\
+             • Alcohol\
+             • Recreational drugs
+          </Card>
+          <Card title="Lifestyle" icon="heart-pulse">
+            • Exercise\
+             • Diet\
+             • Sleep
+          </Card>
+          <Card title="Work" icon="briefcase">
+            • Occupation\
+             • Employment status\
+             • Work restrictions
+          </Card>
+          <Card title="Family" icon="users">
+            • Marital status\
+             • Children\
+             • Living situation\
+             • Pets
+          </Card>
+        </CardGroup>
+      </Accordion>
+      <Accordion title="Table behavior">
+        - Grouped by category
+        - Most recent mention first
+        - Historical mentions preserved
+      </Accordion>
+      <Accordion title="Validation & refresh">
+        - Validates against predefined category list
+        - Refresh re-analyzes and updates groupings
+        - Preserves user edits and notes
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Family History">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **Relationship**
+        - **Condition**
+        - **Age/status** (living/deceased, onset)
+        - **Additional context**
+
+        **Example**
+
+        ```
+        Mother: Type 2 Diabetes, diagnosed age 55 (living)
+        Father: Myocardial infarction (deceased, age 62)
+        ```
+      </Accordion>
+      <Accordion title="Organization options">
+        - Group by relationship
+        - Group by condition
+      </Accordion>
+      <Accordion title="Common use cases">
+        - Risk assessment and context
+        - Litigation: pre-existing risk factors
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Recommendations">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        - **Treatment/procedure**
+        - **Magnitude** (high/medium/low)
+        - **Recommending provider**
+        - **Date recommended**
+        - **Status** (pending/scheduled/completed/declined/denied)
+        - **Context**
+      </Accordion>
+      <Accordion title="Magnitude categorization">
+        **High magnitude**
+
+        - Surgeries
+        - SCS implants
+        - Permanent devices
+        - Major ablations
+
+        <Warning>
+          High-magnitude recommendations are flagged with visual indicators to draw attention to major proposed interventions.
+        </Warning>
+      </Accordion>
+      <Accordion title="Tracking status">
+        - Recommended (not scheduled)
+        - Scheduled (with date)
+        - Completed (links to Procedures)
+        - Declined
+        - Denied
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+  <Accordion title="Assistive Devices">
+    <AccordionGroup>
+      <Accordion title="What gets extracted">
+        **Device types**
+
+        - Wheelchairs, walkers, canes, crutches
+        - Braces, orthotics
+        - Other assistive equipment
+
+        **Fields**
+
+        - Device type/description
+        - Date prescribed/obtained
+        - Duration/current status
+        - Source document
+      </Accordion>
+      <Accordion title="Common use cases">
+        - Disability and functional assessment
+        - Treatment planning
+        - Litigation support (severity/impact)
+      </Accordion>
+    </AccordionGroup>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Review & Collaboration Tools
+
+<AccordionGroup>
+  <Accordion title="Color coding">
+    <Steps>
+      <Step title="Select a group">
+        Click a group row to select it.
+      </Step>
+      <Step title="Choose a color">
+        Click the color palette icon or right-click.
+
+        **Available colors**
+
+        - ⚪ White (default)
+        - 🔴 Red (high priority)
+        - 🟡 Yellow (review needed)
+        - 🟢 Green (verified/important)
+        - ⚫ Gray (excluded/not relevant)
+      </Step>
+      <Step title="Color applies">
+        The entire row highlights and persists across sessions.
+      </Step>
+    </Steps>
+    ![Color Coding](/images/case-info-color-coding.png)
+  </Accordion>
+  <Accordion title="Sticky notes">
+    <Steps>
+      <Step title="Select a group">
+        Click the group you want to annotate.
+      </Step>
+      <Step title="Open notes">
+        Click the note icon or **Add Note**.
+      </Step>
+      <Step title="Write and save">
+        Add context/questions/verification notes and click **Save** or press Ctrl/Cmd+Enter.
+      </Step>
+    </Steps>
+    ![Sticky Notes](/images/case-info-notes.png)
+  </Accordion>
+  <Accordion title="Filtering & search">
+    **Text search**
+
+    - Search medications/diagnoses/procedures
+    - Real-time filtering
+    - Case-insensitive
+
+    **Advanced filters**
+
+    - Validity (valid/invalid/all)
+    - Date range
+    - Color
+    - Notes (has notes / note content)
+    - Metadata (custom fields)
+
+    ![Advanced Filters](/images/case-info-filters.png)
+  </Accordion>
+  <Accordion title="Navigating to sources">
+    <Steps>
+      <Step title="Expand a group">
+        Click a case-level group to view all mentions.
+      </Step>
+      <Step title="Open a mention">
+        Click a mention row to navigate to its source.
+      </Step>
+      <Step title="Verify in the PDF">
+        The PDF viewer jumps to the page and attempts to highlight the exact quote text.
+      </Step>
+    </Steps>
+    ![Navigate to Source](/images/navigate-to-source-caseinfo.png)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Admin & Advanced Controls
+
+<Note>
+  **Admin-Only Feature:** Editing Case Info requires admin privileges. Regular users can view, color-code, and add notes, but cannot edit group names, dates, or summaries.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="Edit mode">
+    <Steps>
+      <Step title="Enable edit mode">
+        Click the **Edit Mode** toggle (or pencil icon) in the top-right of Case Info.
+      </Step>
+      <Step title="Make changes">
+        Edit group names, dates, summaries, metadata, and validity as needed.
+      </Step>
+      <Step title="Save or cancel">
+        Click **Save** to commit changes or **Cancel** to discard.
+      </Step>
+    </Steps>
+  </Accordion>
+  <Accordion title="Editable fields">
+    | Field      | Editable   | Notes                      |
+    | ---------- | ---------- | -------------------------- |
+    | Group Name | ✅ Yes      | Inline edit                |
+    | Date       | ✅ Yes      | Date picker                |
+    | Summary    | ✅ Yes      | Textarea editor            |
+    | Metadata   | ✅ Yes      | JSON editor                |
+    | Validity   | ✅ Yes      | Toggle                     |
+    | Mentions   | ⚠️ Limited | Delete/move between groups |
+    | Color      | ✅ Yes      | All users                  |
+    | Notes      | ✅ Yes      | All users                  |
+  </Accordion>
+  <Accordion title="Moving mentions between groups">
+    1. Enter **Edit Mode**
+    2. Expand source and destination groups
+    3. Drag a mention row to the destination group
+    4. Click **Save**
+
+    ![Drag Drop Mentions](/images/drag-drop-mentions.png)
+  </Accordion>
+  <Accordion title="Deleting groups and mentions">
+    **Soft delete**
+
+    - Items are marked deleted, not permanently removed
+    - Audit trail preserved
+
+    <Warning>
+      Deletions are committed when you click **Save**. Review carefully before saving.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Updating, Importing, and Exporting
+
+<AccordionGroup>
+  <Accordion title="When to rebuild Case Info">
+    **Rebuild is needed when**
+
+    - New files uploaded
+    - Sections edited (pages added/removed)
+    - Extraction errors identified
+    - Grouping is incorrect
+    - Case Info was not originally requested
+
+    **What rebuild does**
+
+    - Re-runs extraction on all sections
+    - Regenerates case-level groupings
+    - Updates timelines and validation
+    - Preserves user edits (colors, notes)
+  </Accordion>
+  <Accordion title="How to rebuild Case Info (Admin)">
+    <Steps>
+      <Step title="Open update modal">
+        Click the settings/gear icon or choose **Update Case Info**.
+      </Step>
+      <Step title="Select categories">
+        Choose which categories to rebuild.
+      </Step>
+      <Step title="Confirm and monitor">
+        Processing runs in background with WebSocket progress updates.
+      </Step>
+      <Step title="Refresh to view results">
+        Refresh Case Info after completion.
+      </Step>
+    </Steps>
+    ![Update Case Info Modal](/images/update-case-info-modal.png)
+  </Accordion>
+  <Accordion title="Selective refresh vs full rebuild">
+    **Refresh (faster)**
+
+    - Re-runs enrichment only (timelines/validation)
+    - Does not re-extract from documents
+    - Available for: Medications, Patient Info, Social History
+
+    **Full rebuild (slower)**
+
+    - Re-extracts from all sections
+    - Regenerates groupings and enrichment
+    - Use when source data changed or extraction is wrong
+  </Accordion>
+  <Accordion title="Importing data">
+    **Supported categories**
+
+    - Medications
+    - Procedures
+    - Drug Screens
+    - Recommendations
+    - Assistive Devices
+
+    <Steps>
+      <Step title="Prepare file">
+        Create **.xlsx** or **.csv** with required columns for the category.
+      </Step>
+      <Step title="Upload and map columns">
+        Use the import modal to map spreadsheet columns to InQuery fields.
+      </Step>
+      <Step title="Preview and import">
+        Preview rows, then click **Import**.
+      </Step>
+    </Steps>
+    ![Import Mapping](/images/import-mapping.png)
+
+    <Info>
+      Imported items are marked with an **Imported** badge so you can distinguish them from AI-extracted data.
+    </Info>
+  </Accordion>
+  <Accordion title="Exporting Case Info">
+    **Export options**
+
+    1. Download current view (includes filters)
+    2. Download all data (entire category)
+    3. Include in case reports (PDF downloads)
+
+    **Formats**
+
+    - Excel (.xlsx)
+    - CSV
+    - PDF (within case report)
+
+    **Included**
+
+    - Group data + mention details
+    - Dates and references
+    - Color coding
+    - Notes
+    - Metadata
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Case Info not showing / empty">
+    **Possible causes**
+
+    - Service not requested during upload
+    - Processing still in progress
+    - Extraction failed
+
+    **Solutions**
+
+    1. Confirm Case Info was selected during upload
+    2. Request via **Request Additional Services** if not
+    3. Wait for processing (check notifications)
+    4. Contact support if processing failed
+  </Accordion>
+  <Accordion title="Missing medications/procedures I know exist">
+    **Possible causes**
+
+    - Poor OCR quality (scanned documents)
+    - Narrative mention not in standard format
+    - Document type excluded
+    - Extraction error
+
+    **Solutions**
+
+    1. Check Section-level view
+    2. Verify source text quality in the PDF
+    3. Use Import to add missing items
+    4. Submit feedback with examples
+    5. Rebuild after confirming documents are readable
+  </Accordion>
+  <Accordion title="Grouping seems incorrect">
+    **Solutions**
+
+    1. **Admin:** Merge/split groups in Edit Mode
+    2. **Admin:** Move mentions via drag-and-drop
+    3. Rebuild Case Info to re-run grouping
+    4. Submit feedback with examples
+  </Accordion>
+  <Accordion title="Can't navigate to source / highlighting not working">
+    **Possible causes**
+
+    - Scanned document (no text layer)
+    - OCR errors
+    - Incorrect page number
+    - WebSocket issue
+
+    **Solutions**
+
+    1. Manually navigate to the listed page
+    2. Use PDF search (Ctrl+F)
+    3. Confirm document is text-based (try selecting text)
+    4. Refresh to reconnect WebSocket
+    5. Try a different browser
+  </Accordion>
+  <Accordion title="Import failing or mapping incorrectly">
+    **Common issues**
+
+    - Wrong file format (use .xlsx or .csv)
+    - Missing required fields
+    - Incorrect date formats
+
+    **Solutions**
+
+    1. Download and use the template from the Import modal
+    2. Ensure required columns exist
+    3. Format dates as YYYY-MM-DD or MM/DD/YYYY
+    4. Simplify column headers (avoid special characters)
+  </Accordion>
+  <Accordion title="Rebuild/Update taking too long">
+    **Expected times**
+
+    - Small case (\< 50 pages): 2-5 minutes
+    - Medium case (50-200 pages): 5-15 minutes
+    - Large case (200-500 pages): 15-45 minutes
+    - Very large case (500+ pages): 45+ minutes
+
+    **If processing stalls**
+
+    1. Refresh to restore WebSocket updates
+    2. Wait up to 60 minutes
+    3. Check error notifications
+    4. Contact support with case ID if no progress after 60 minutes
+
+    <Info>
+      Processing runs in background — you can close the browser and check back later. You may lose WebSocket progress updates, but processing continues.
+    </Info>
+  </Accordion>
+</AccordionGroup>
