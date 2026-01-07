@@ -35,12 +35,14 @@
               {
                 "group": "Right Panel",
                 "pages": [
+                  "product-features/inside-a-case/right-panel/file-manager",
                   "product-features/inside-a-case/right-panel/pdf-viewer"
                 ]
               },
               {
                 "group": "Left Panel",
                 "pages": [
+                  "product-features/inside-a-case/left-panel/document-summary",
                   {
                     "group": "Case Information",
                     "pages": [

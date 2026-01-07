@@ -1,0 +1,485 @@
+---
+title: "Document Summaries"
+description: "View, edit, and interact with AI-generated summaries for each document section in your case."
+---
+
+## Overview
+
+**Document Summaries** provide AI-generated overviews of each medical record section, helping you understand content quickly without reading every page. InQuery supports two summary types:
+
+- **Full detailed summaries**
+- **Concise medical chronology summaries** (Record Summary)
+
+You also get features for **citation tracing** (Explain Source) and **feedback submission**.
+
+<AccordionGroup title="Quick Actions">
+  <Accordion title="Open Summary">
+    Click any section in the Document Index.
+  </Accordion>
+
+  <Accordion title="Edit Summary">
+    Double-click the summary text.
+  </Accordion>
+
+  <Accordion title="Trace Source (Admin only)">
+    Select text in the summary, then click <b>Explain Source</b>.
+  </Accordion>
+
+  <Accordion title="Submit Feedback">
+    Click <b>Submit Feedback</b> below the summary.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Opening Document Sections
+
+### Opening a document section
+
+Document sections are listed in the **Document Index** (left panel). Each section represents a segment of uploaded medical records.
+
+**How to open**
+
+1. Locate the section in the Document Index
+2. Click anywhere on the section row
+3. The section expands to reveal its summary and other content
+
+**What expands**
+
+- ✅ Section header remains visible at the top
+- ✅ Summary content displays below the header
+- ✅ Tabs appear if multiple content types exist (Summary, Full Summary, Key Findings, etc.)
+- ✅ Action buttons appear at the bottom (Explain Source, Submit Feedback)
+
+### Visual indicators
+
+- **Collapsed section:** title + date only
+- **Expanded section:** full content shown with border/highlight
+- **Active section:** may have different background/border styling
+
+### How sections open and close
+
+**Single-click to toggle**
+
+- Click collapsed section → opens and shows summary
+- Click expanded section header → collapses back to title-only
+
+**Accordion behavior**
+
+- Opening a new section typically closes the previously open section
+- Keeps the interface focused and uncluttered
+
+**Multiple sections**
+
+- Some views may allow multiple sections open simultaneously
+- Use any available expand/collapse-all controls if present
+
+**Persistence**
+
+- Expansion state usually persists during the session
+- Refresh typically resets to collapsed
+- The last active section may remain expanded
+
+---
+
+## Tab Options
+
+When you open a section, you may see tabs depending on available data and permissions.
+
+### Available tabs
+
+| Tab            | Content                            | Availability                    |
+| -------------- | ---------------------------------- | ------------------------------- |
+| Record Summary | Concise medical chronology summary | Always (if summaries enabled)   |
+| Full Summary   | Detailed comprehensive summary     | Admin/Validator only            |
+| Key Findings   | Extracted key medical facts        | If Key Findings enabled         |
+| ICD Codes      | Diagnostic codes found in record   | Admin/Validator, if codes exist |
+| Billing        | Billing details for the section    | If section is billing type      |
+
+### Tab behavior
+
+- Click a tab to switch content types
+- Active tab is highlighted
+- Content updates instantly
+
+### Single-tab display
+
+- If only one content type exists, tabs may not appear
+- Content displays directly without a tab bar
+
+<Info>
+  The first available tab (typically <b>
+  Record Summary</b>
+
+  ) opens by default when you expand a section.
+</Info>
+
+---
+
+## Medical Chronology Mode
+
+**Medical Chronology Mode (Med Chron Mode)** is a specialized view for concise, date-sorted summaries optimized for timeline creation.
+
+### Key differences
+
+| Feature   | Normal Mode                           | Med Chron Mode                     |
+| --------- | ------------------------------------- | ---------------------------------- |
+| Sorting   | User choice (type/date/provider/etc.) | Always by date (oldest → newest)   |
+| Grouping  | By document type/provider/institution | Disabled (flat chronological list) |
+| Summaries | Full detailed summaries               | Concise chronology summaries       |
+| Focus     | Comprehensive review                  | Timeline generation                |
+
+### When to use
+
+- ✅ Creating medical chronologies for legal work
+- ✅ Generating timeline exports
+- ✅ Understanding progression chronologically
+- ✅ Spotting date-based patterns
+- ✅ Prep for depositions/trial
+
+---
+
+## Activating Medical Chronology Mode
+
+### Button location
+
+- Top toolbar in the Document Controls Bar
+- Clock icon button
+- Only visible if the Medical Chronology service is enabled for the case
+
+### How to enter
+
+1. Locate the clock icon (tooltip: “Enter Med Chron Mode”)
+2. Click the button
+3. The view switches to chronological ordering
+4. Grouping is disabled
+5. Summaries switch to the chronology version
+
+### Visual changes
+
+- Clock button highlights/changes state
+- Grouping UI disappears (disabled)
+- Sort becomes date order automatically
+- Med Chron-only controls may appear (permission-dependent)
+
+---
+
+## Working in Med Chron Mode
+
+### Chronological view
+
+- Sections display in strict date order (oldest first)
+- Date is emphasized for quick scanning
+
+### Concise summaries
+
+- Shorter summaries focused on events/findings
+- Optimized for timeline generation
+- Less administrative detail
+
+### Folder/group creation (if supported)
+
+- Even though automatic grouping is disabled, manual folders may be available:
+  - Enter Edit Mode
+  - Select multiple related sections
+  - Click Create Folder
+  - Folder summary covers the date range
+
+---
+
+## Returning to Normal View
+
+### How to exit
+
+- Click the clock icon again (tooltip often indicates ESC)
+- Or press **ESC**
+
+### What happens
+
+- Previous sorting/grouping returns
+- Summaries switch back to normal mode versions
+- Med Chron-only buttons disappear
+
+---
+
+## Editing Summaries
+
+Summaries can be edited to correct errors, add context, or refine wording.
+
+### Enter edit mode
+
+1. Expand a section to view its summary
+2. Double-click anywhere in the summary text
+3. Summary becomes an editable text area
+
+### Edit and save
+
+**Save**
+
+- Click outside the text area (auto-saves), or
+- Press **Ctrl+Enter** (Windows/Linux) / **Cmd+Enter** (Mac)
+
+**Cancel**
+
+- Press **ESC** to discard changes
+
+### What editing looks like
+
+- Text area appears with white background + border
+- Markdown is visible as raw text (e.g., `**bold**`, `## Header`)
+- Field auto-expands as you type
+
+### Best practices
+
+- ✅ Keep edits concise and medically accurate
+- ✅ Preserve dates, findings, and key details
+- ✅ Maintain consistent formatting across sections
+
+---
+
+## When Summaries Need Regeneration
+
+Summaries can become invalid if the underlying section changes.
+
+### Common invalidation causes
+
+- Pages added/removed from a section
+- Section boundaries changed
+- Underlying PDF changed
+
+### Indicator (Admin/Validator)
+
+- Red banner above summary with guidance to re-run Executive Summary (or similar)
+
+### What to do
+
+1. Note the invalidation warning
+2. Go to the case-level Executive Summary controls
+3. Click “Re-run Executive Summary” (or equivalent)
+4. Wait for regeneration
+5. Banner disappears after completion
+
+<Warning>
+  Invalidation warnings typically appear only for Admin/Validator users. Regular users may not see the warning even if a summary is outdated.
+</Warning>
+
+---
+
+## Using Summary Citations (Explain Source)
+
+**Explain Source** traces selected summary text back to source quotes in the PDF.
+
+### Requirements
+
+- ✅ Admin user (feature is Admin-only)
+- ✅ WebSocket connection active
+- ✅ Text selected (minimum ~10 characters)
+
+### Steps
+
+1. Expand a section summary
+2. Select at least ~10 characters of summary text
+3. Click **Explain Source** (button appears only when selection qualifies)
+4. Review the Source Trace card:
+   - selected text
+   - source quotes
+   - page links
+   - brief explanation of how sources map to the summary
+5. Click a quote to jump the PDF viewer to that page (and highlight)
+
+### When to use
+
+- ✅ Verify accuracy before citing
+- ✅ Locate supporting pages quickly
+- ✅ QA for hallucinations or mismatches
+- ✅ Resolve disputes about what’s supported by the record
+
+### Common issues
+
+- Button not showing → not Admin / selection too short / selection outside summary
+- No source found → synthesized content or OCR limitations
+- Timeout/WebSocket error → refresh and retry
+
+---
+
+## Providing Feedback
+
+**Submit Feedback** reports summary issues, suggestions, or notes to your team/support.
+
+### Reporting summary issues
+
+**Where**
+
+- Below each summary section
+
+**How**
+
+1. Click **Submit Feedback**
+2. Fill out the feedback form (title, description, priority)
+3. Submit
+
+### Better feedback via selected text
+
+If you highlight text before clicking Submit Feedback, that selection can be included as context.
+
+**Example**
+
+- Summary says “surgery in 2022” but it’s 2023
+- Select “surgery in 2022” → Submit Feedback → explain correction
+
+### What to report
+
+- Accuracy: wrong dates/meds/dosages/names, hallucinated statements
+- Clarity: confusing phrasing, timeline jumps, ambiguity
+- Completeness: missing key findings or critical context
+- Formatting: broken markdown, headings/bullets
+- Suggestions: better phrasing, additions, feature requests
+
+<Info>
+  Feedback is typically one-way. If you need a response, include contact info in the description or use your standard support channel.
+</Info>
+
+---
+
+## Summary Types
+
+InQuery generates two summary types per section.
+
+### Record Summary (Med Chron Summary)
+
+- **Length:** concise
+- **Focus:** key events/findings
+- **Best for:** chronology/timeline generation
+- **Visibility:** all users (when enabled)
+- **Tab:** Record Summary
+
+### Full Summary
+
+- **Length:** comprehensive
+- **Focus:** detail + context
+- **Best for:** deep review
+- **Visibility:** Admin/Validator only
+- **Tab:** Full Summary
+
+---
+
+## Case-Level Executive Summary
+
+In addition to section summaries, InQuery generates a **case-level Executive Summary**.
+
+**Location**
+
+- Top of the Document Abstract (separate from section summaries)
+
+**What it includes**
+
+- High-level case overview
+- Key findings across records
+- Important dates/events
+- Treatment summary
+
+<Note>
+  Executive Summary has different editing/regeneration workflows and is documented separately.
+</Note>
+
+---
+
+## Best Practices
+
+### Efficient review workflow
+
+**First pass (scan)**
+
+1. Enter Med Chron Mode
+2. Expand sections one at a time
+3. Read Record Summary
+4. Note red flags/questions
+
+**Second pass (deep dive)**
+
+1. Exit Med Chron Mode
+2. Focus on critical sections
+3. Use Full Summary (Admin/Validator)
+4. Verify key facts with Explain Source
+5. Edit summaries for clarifications
+
+### Edit vs regenerate
+
+**Edit when**
+
+- Minor corrections, wording, formatting, quick clarifications
+
+**Regenerate when**
+
+- Sections changed, invalidation warning, major inaccuracies, stale summaries
+
+**Best approach**
+
+- Regenerate first → then edit details you want to refine
+
+### Actionable feedback
+
+- Be specific
+- Include context (page references if known)
+- Highlight the problematic text before submitting
+- Choose priority appropriately (High/Medium/Low)
+- Suggest improved wording when possible
+
+---
+
+## Troubleshooting
+
+### Missing summaries
+
+- Not generated yet → wait / Admin may need to regenerate
+- Service not enabled → Record Summary tab missing
+- Permissions → Full Summary not visible (expected)
+- Section invalidated → regenerate
+
+### Can’t edit summaries
+
+- Double-click not on summary text → try again
+- Save not happening → click outside or Ctrl/Cmd+Enter
+- Regeneration overwrote edits → edit after regeneration
+
+### Explain Source not working
+
+- Not Admin / selection too short / selection outside summary
+- No sources found → synthesized content or OCR limitations
+- WebSocket errors → refresh
+
+### Can’t submit feedback
+
+- Modal not opening → retry / refresh
+- Submission errors → confirm required fields and connectivity
+
+---
+
+## Summary
+
+### Features
+
+- ✅ Expand sections to view summaries
+- ✅ Record Summary (concise) + Full Summary (detailed)
+- ✅ Med Chron Mode for date-sorted timeline view
+- ✅ Inline editing (double-click)
+- ✅ Explain Source (Admin) to trace summary text to PDF quotes
+- ✅ Submit Feedback with optional selected-text context
+- ✅ Clickable source quotes that jump to PDF pages
+
+### Remember
+
+- Record Summary = chronology-focused
+- Full Summary = Admin/Validator only
+- ESC exits Med Chron Mode
+- Ctrl/Cmd+Enter saves edits
+- Explain Source requires selecting enough text (Admin only)
+
+---
+
+## Related Documentation
+
+- PDF Viewer → Viewing source documents
+- Document Index → Organizing and filtering sections
+- Case Info → Extracted structured data
+- Downloading Cases → Exporting summaries and chronologies
