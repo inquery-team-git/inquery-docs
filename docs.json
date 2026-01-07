@@ -13,13 +13,6 @@
       {
         "group": "Get Started",
         "pages": [
-          "get-started/managing-cases",
-          "get-started/downloading-cases",
-          "get-started/billing",
-          "get-started/case-info",
-          "get-started/document-section",
-          "get-started/untitled-page",
-          "get-started/uploading-a-case",
           "get-started/introduction",
           "get-started/services",
           "get-started/quickstart",
@@ -27,7 +20,45 @@
         ]
       },
       {
-        "group": "Essentials",
+        "group": "Product Features",
+        "pages": [
+          {
+            "group": "Cases Dashboard",
+            "pages": [
+              "get-started/managing-cases",
+              "get-started/uploading-a-case"
+            ]
+          },
+          {
+            "group": "Inside a Case",
+            "pages": [
+              {
+                "group": "Right Panel",
+                "pages": [
+                  "product-features/inside-a-case/right-panel/pdf-viewer"
+                ]
+              },
+              {
+                "group": "Left Panel",
+                "pages": [
+                  {
+                    "group": "Case Information",
+                    "pages": [
+                      "get-started/billing",
+                      "get-started/case-info"
+                    ]
+                  },
+                  "get-started/untitled-page",
+                  "get-started/document-section",
+                  "get-started/downloading-cases"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Concepts",
         "pages": [
           "essentials/case-management",
           "essentials/file-management",
