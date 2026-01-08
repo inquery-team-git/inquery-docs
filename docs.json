@@ -46,6 +46,7 @@
                   {
                     "group": "Case Information",
                     "pages": [
+                      "product-features/inside-a-case/left-panel/case-information/missing-records",
                       "get-started/billing",
                       "get-started/case-info"
                     ]

@@ -1,0 +1,219 @@
+---
+title: "Missing Records (Regular User Guide)"
+---
+
+## Overview
+
+The **Missing Records** feature helps you identify and track medical treatment records that appear in billing data but do not yet have corresponding medical documentation.
+
+**Key points:**
+
+- Missing records are automatically extracted from billing data
+- They represent charges without supporting medical records
+- Color coding helps you quickly understand record status
+- Notes let you track follow-up efforts and team coordination
+
+---
+
+## Accessing Missing Records
+
+The **Missing Records** tab is available within the case view.
+
+- Open a case
+- Navigate to the **Document Abstract**
+- Click the **Missing Records** tab
+
+---
+
+## Understanding the Missing Records Table
+
+### Table Columns
+
+| Column      | Description                                         |
+| ----------- | --------------------------------------------------- |
+| From        | Start date of the service or treatment period       |
+| Through     | End date of the service or treatment period         |
+| Institution | Healthcare facility or provider name                |
+| Discount    | Any discount applied to the charges                 |
+| Amount      | Total charge amount for the service                 |
+| References  | Links to related pages in case documents (if found) |
+
+---
+
+### Sorting Records
+
+You can sort records by clicking any column header.
+
+- Click once → sort ascending
+- Click again → sort descending
+
+Use sorting to prioritize work by:
+
+- Date (earliest gaps first)
+- Amount (highest-cost items first)
+- Institution (group by provider)
+
+---
+
+## Understanding Record Status (Color Coding)
+
+Rows are color-coded to reflect documentation status:
+
+**Green — Complete**
+
+- Medical and billing references are present
+- **Action:** No follow-up needed
+
+**Yellow — Partial**
+
+- Only one reference is present
+- **Action:** Verify existing reference and search for the missing document
+
+**Red — Missing**
+
+- No references are present
+- **Action:** High priority—request records from the provider
+
+---
+
+## Using References
+
+### Medical References
+
+- Format: `Med: File Name – Page X`
+- Click to jump directly to the medical document page
+
+### Non-Medical References
+
+- Format: `Non-Med: File Name – Page X`
+- Click to jump to the billing document page
+
+### How to Use References
+
+1. Click a reference link
+2. The PDF viewer opens and scrolls to the correct page
+3. Review the content to verify accuracy
+4. Return to the Missing Records table to continue work
+
+---
+
+## Manual Color Coding
+
+Manual colors help you track progress and coordinate with your team.
+
+**Common uses:**
+
+- Mark records already requested from providers
+- Highlight urgent or high-priority items
+- Flag records verified as billing errors or duplicates
+- Coordinate ownership across team members
+
+### Removing Manual Colors
+
+- Enter edit mode for the record
+- Select **Remove Color**
+- The row reverts to automatic color coding
+
+---
+
+## Adding and Editing Notes
+
+Notes allow you to document follow-up actions and status updates.
+
+**Best practices for notes:**
+
+- Include request dates
+- Note who you contacted (provider name, phone/fax/email)
+- Track responses and timelines
+- Record follow-up deadlines
+- Mention special requirements (e.g., signed authorization)
+
+**Example notes:**
+
+- _Called Dr. Johnson’s office 1/7/26 — records requested, 3–5 business days_
+- _Faxed authorization to Memorial Hospital 1/5/26 — no response yet_
+- _Patient confirms visit never occurred — likely billing error_
+
+---
+
+## Sorting and Prioritization Strategies
+
+**Sort by Date (From / Through):**
+
+- Identify earliest documentation gaps
+- Review missing records chronologically
+
+**Sort by Institution:**
+
+- Group records by provider
+- Make bulk requests to facilities with multiple gaps
+
+**Sort by Amount:**
+
+- Focus on high-dollar missing records
+- Deprioritize low-impact charges if appropriate
+
+**Sort by References:**
+
+- Red rows: no documentation
+- Yellow rows: partial documentation
+- Green rows: complete
+
+---
+
+## Copy to Clipboard
+
+You can copy the Missing Records table for use outside InQuery.
+
+**Common use cases:**
+
+- Create a tracking spreadsheet
+- Share with case managers or attorneys
+- Generate reports for insurers
+- Save snapshots for historical comparison
+
+---
+
+## Common Workflows
+
+- Review red rows first to identify urgent gaps
+- Add notes as you contact providers
+- Update colors as records are requested or received
+- Periodically re-check references after new uploads
+
+---
+
+## Troubleshooting
+
+### Missing Records Not Appearing
+
+- Contact your admin to confirm billing data has been imported
+- Verify the case has billing data available
+- Confirm this case type supports Missing Records tracking
+
+### Colors or Status Look Incorrect
+
+- Ask your admin to re-run **Match to Sections**
+- Check whether manual colors were applied
+- Click reference links to verify they point to the correct pages
+
+### Reference Links Not Working
+
+- Refresh the page and try again
+- Ask your admin to re-run matching after document updates
+- Open the document manually and navigate to the page
+
+### Notes Not Saving
+
+- Check your internet connection
+- Click outside the note field to trigger save
+- Refresh and log back in if needed
+- Copy note text before editing to avoid loss
+
+### Copy to Clipboard Not Working
+
+- Check browser clipboard permissions
+- Try copying smaller sections manually
+- Temporarily disable browser extensions and retry
+
+---
