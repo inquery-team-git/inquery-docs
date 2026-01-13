@@ -1,0 +1,448 @@
+---
+title: "PDF Viewer Interface"
+description: "The PDF viewer occupies the right side of the screen."
+---
+
+### Main components
+
+1. **Search Bar** — Top toolbar with real-time PDF search
+2. **Document Canvas** — Central viewing area showing PDF pages
+3. **Zoom Controls** — Bottom-left floating controls
+4. **Rotation Controls** — Bottom-left floating controls (next to zoom)
+5. **Virtual Scrolling** — Smooth scrolling optimized for large documents
+
+---
+
+## Zooming and Scaling
+
+### Using zoom controls
+
+The zoom controls appear as a **floating toolbar in the bottom-left** corner.
+
+| Button       | Function                                         | Keyboard |
+| ------------ | ------------------------------------------------ | -------- |
+| − (Minus)    | Zoom out by 10%                                  | N/A      |
+| XX% (center) | Shows current zoom level; click to reset to 100% | N/A      |
+| \+ (Plus)    | Zoom in by 10%                                   | N/A      |
+
+**Zoom range**
+
+- **Minimum:** 10% (0.1x)
+- **Maximum:** 600% (6x)
+- **Default:** Auto-fit (calculated to fit page width to viewer)
+
+**Control behavior**
+
+- Semi-transparent when idle
+- Fully visible on hover
+- Smooth transitions between zoom levels
+- Zoom resets when switching to a different document
+
+### Zoom behavior
+
+**Initial page load**
+
+1. Viewer calculates an optimal zoom level
+2. Page fits ~95% of viewer width
+3. Minimizes horizontal scrolling while staying readable
+
+**Zooming in (+)**
+
+- Each click increases zoom by **10%**
+- Example: 100% → 110% → 120%
+- Maximum: **600%**
+
+**Zooming out (−)**
+
+- Each click decreases zoom by **10%**
+- Example: 100% → 90% → 80%
+- Minimum: **10%**
+
+**Reset to 100%**
+
+- Click the **percentage** display (e.g., “125%”) to reset to **100%**
+
+**Zoom persistence**
+
+- Page position is preserved during zooming (viewer tries to keep content centered)
+- Zoom level resets when switching to a different document
+
+### When to zoom
+
+**Reading small text**
+
+- Zoom to **150–200%** for comfortable reading
+- Reset to **100%** after
+
+**Examining details (dates, signatures, checkboxes)**
+
+- Zoom to **300–400%**
+- Rotate if the text is sideways
+
+**Reviewing full-page layout**
+
+- Zoom out to **50–80%** to scan page structure quickly
+
+**Comparing multiple areas**
+
+- Stay near **100%** or slightly below and scroll
+- Use search to jump between locations quickly
+
+### Automatic scaling (auto-fit)
+
+InQuery auto-fits in these cases:
+
+- First time opening a document
+- Switching to a different document
+- Major browser resize (\>50px), **only if you haven’t manually zoomed**
+
+Auto-fit does **not** apply:
+
+- After you manually zoom
+- Minor window adjustments
+- Page navigation/scrolling
+- Document switching when manual zoom is active
+
+<Info>
+  Once you manually adjust zoom, InQuery respects your preference and won’t auto-adjust until you open a new document.
+</Info>
+
+---
+
+## Page Rotation
+
+### Rotation controls
+
+The rotate button (circular arrow icon) appears in the **bottom-left toolbar** next to zoom.
+
+**How to rotate**
+
+1. Navigate to the page you want to rotate
+2. Click the rotate icon
+3. Page rotates **90° clockwise**
+4. Repeat to cycle: **90° → 180° → 270° → 0°**
+
+**Rotation persistence**
+
+- Saved automatically to the database
+- Persists across sessions
+- File-specific and page-specific (each page can have its own rotation)
+
+### Rotate selected section (Edit Mode)
+
+When in **Edit Mode** with **exactly one section selected**, you can rotate _all pages in that section_ at once.
+
+**When it appears**
+
+- Edit Mode is active
+- Exactly one section is selected
+- You’re viewing a page within the selected section
+
+**How to use**
+
+1. Enter Edit Mode
+2. Select a section in the document index
+3. Click **Rotate Section** (top-right of viewer)
+4. All pages rotate **90° clockwise**
+
+**Use case**
+
+- Entire document scanned sideways/upside-down
+- Multiple pages need the same rotation
+
+<Warning>
+  This feature only appears in Edit Mode. Users without edit permissions won’t see it.
+</Warning>
+
+### Common rotation scenarios
+
+- Mixed portrait/landscape records (e.g., lab tables)
+- Scanning/faxing errors (upside-down/sideways pages)
+- Sideways handwritten margin notes
+- Wide multi-column tables (billing statements, charts)
+
+---
+
+## Searching PDFs
+
+The search bar provides instant, full-text search across all documents with real-time highlighting and match navigation.
+
+### Basic search
+
+**Search bar location**
+
+- Top toolbar of the PDF viewer
+- Always visible when viewer is active
+
+**Steps**
+
+1. Type a search term (**minimum 3 characters**)
+2. Results highlight automatically as you type
+3. Navigate matches via arrows (or **Enter** for next match)
+4. Clear the search box to remove highlights
+
+### Search capabilities
+
+**What gets searched**
+
+- OCR-extracted text from scanned documents
+- Native text in digital PDFs
+- All uploaded files in the current case
+- Entire content, not just visible pages
+
+**Search characteristics**
+
+| Feature          | Behavior                           |
+| ---------------- | ---------------------------------- |
+| Minimum length   | 3 characters                       |
+| Case sensitivity | Case-insensitive                   |
+| Partial matching | Finds words containing your term   |
+| Real-time        | Updates as you type                |
+| Multi-file       | Searches across all uploaded files |
+| Processing       | Server-side (fast)                 |
+
+### Search indicators
+
+- **“At least 3 characters required”** — appears for short queries
+- **Spinner** — search in progress (usually 1–2 seconds)
+- **“Not Found”** — no matches found
+- **Match counter** — e.g., `2 / 15` (within current file)
+- **Multi-file indicator** — e.g., `(45 in 3 files)`
+
+### Visual highlights
+
+- Matches show as **yellow highlights** on pages
+- Active match may be brighter or outlined
+- Viewer scrolls to and centers the current match
+- Highlights persist until you clear the search term
+
+### Searching across documents (multi-file)
+
+**How it works**
+
+1. Search scans all uploaded files in the case
+2. Results aggregate across documents
+3. UI shows both per-file matches and total matches across files
+
+**Example** `2 / 8 (23 in 3 files)`
+
+**Interpretation**
+
+- `2 / 8` = match 2 of 8 in the current document
+- `(23 in 3 files)` = 23 total matches across 3 files
+
+**Navigation**
+
+- Next/previous cycles through matches in the active file
+- After the last match, “Next” may switch to the next file with matches
+
+<Tip>
+  When searching for a quote from a summary, use the most distinctive **3–5 words** to jump directly to the source in the PDF.
+</Tip>
+
+---
+
+## Navigation
+
+### Virtual scrolling
+
+To stay fast on large PDFs, InQuery uses virtual scrolling:
+
+- Only visible + nearby pages are rendered
+- Pages load as you scroll
+- Smooth performance for 500+ pages
+
+**Ways to scroll**
+
+- Mouse wheel / trackpad
+- Drag scrollbar
+- Click page targets in the document index
+
+### Direct page navigation
+
+**From document index**
+
+1. Click a section in the left index
+2. Viewer jumps to the section start page
+
+**From bookmarks**
+
+- Click bookmarks in the document tree to jump to specific pages
+
+**From search**
+
+- Next/previous match navigates directly to highlighted text
+
+### Multi-file navigation
+
+**File selector**
+
+- Located in the viewer toolbar
+- Switch between uploaded files instantly
+
+**File switch behavior**
+
+- New file loads immediately (progress indicator may appear)
+- Zoom auto-fits for the new file
+- Rotations persist for that file
+- Search highlights carry over if search is still active
+
+---
+
+## Advanced Features
+
+### Current page indicator
+
+The viewer tracks your position:
+
+- Page counter (e.g., “Page X of Y”)
+- Document index highlights your current section for context
+
+### How the viewer stays fast
+
+- Virtual scrolling reduces memory usage
+- Progressive loading prioritizes visible pages
+- Page caching speeds revisits
+- Server-side search avoids browser lag
+
+### Adapting to screen sizes
+
+- **Desktop:** full controls and layout
+- **Tablet:** touch-friendly interaction
+- **Mobile:** simplified controls for touch navigation
+- **Window resizing:** auto-fit recalculates only in specific cases (see auto-fit rules above)
+
+---
+
+## Common Workflows
+
+### Standard review workflow
+
+1. Open a case from the dashboard
+2. Use the document index to jump between sections
+3. Zoom in on key details as needed
+4. Search for critical terms
+5. Rotate pages with incorrect orientation
+6. Cross-check details in other tabs (summaries, case info), returning to the PDF viewer as needed
+
+### Quick information lookup
+
+1. Identify the target detail (date, med, provider, test result)
+2. Search first with a specific keyword
+3. Refine if too many matches (use more specific terms)
+4. Verify context around the match
+5. Cross-reference other documents if needed
+
+### Ensure document quality before export
+
+- Rotate incorrectly oriented pages (saves automatically)
+- Confirm section organization in the index
+- Test search with key terms (validates OCR quality)
+- Verify page count and check for missing sections
+- Evaluate scan clarity at 100% zoom and higher
+
+---
+
+## Troubleshooting
+
+### Document won’t display
+
+**Symptoms**
+
+- Blank viewer
+- Endless loading
+- Error message
+
+**Fixes**
+
+- Try Chrome/Firefox/Edge; update browser
+- Check connection (large files can take 10–30s)
+- Re-upload if the PDF is corrupted
+- Clear cache; restart browser
+
+### Search returns “Not Found”
+
+**Common causes**
+
+- OCR quality is poor (handwriting often won’t extract)
+- Abbreviations/variants (HTN vs hypertension)
+- Search term too short (less than 3 chars)
+- File not fully indexed yet (wait ~30 seconds after upload)
+- Text is embedded in images/graphics (not searchable)
+
+### Controls not working
+
+**Zoom not responding**
+
+- Reset via the percentage button
+- Confirm you’re not already at 10% or 600%
+- Hover bottom-left to reveal controls
+
+**Rotation not saving**
+
+- Wait 2–3 seconds after rotating before switching files
+- Confirm you have edit permissions
+
+**Blank page after rotation**
+
+- Scroll slightly to re-render
+- Switch pages and back
+- Refresh if needed
+
+**Slow after many rotations**
+
+- Refresh to clear memory (rotations will persist)
+
+### Viewer running slow
+
+**Symptoms**
+
+- Laggy scrolling
+- Slow transitions
+- Delayed search
+
+**Fixes**
+
+- Reduce zoom (300%+ is expensive to render)
+- Close extra tabs
+- Disable heavy browser extensions (test in incognito)
+- Enable hardware acceleration in browser settings
+- Expect some delay in extremely large PDFs
+
+---
+
+## Summary
+
+**Key features**
+
+- Auto-fit zoom for readability
+- Manual zoom from **10% to 600%**
+- Page rotation that saves and persists
+- Real-time search with highlighting across all files
+- Multi-file navigation
+- Virtual scrolling for performance on large documents
+- Server-side search for speed
+
+**Best practices**
+
+- Search first for targeted lookup
+- Rotate pages as soon as you spot issues
+- Zoom in for details, zoom out for layout scanning
+- Use the document index to jump sections
+- Reset to 100% when comparing across pages
+
+**Remember**
+
+- Search requires **3+ characters**
+- Rotation saves automatically (wait a few seconds)
+- Zoom resets when switching documents
+- Search spans all uploaded files in the case
+
+---
+
+## Related Documentation
+
+- Document Index → Organizing and filtering sections
+- Document Summaries → AI-generated content from PDFs
+- Case Info → Extracted structured data from medical records
+- Downloading Cases → Exporting PDFs with your modifications

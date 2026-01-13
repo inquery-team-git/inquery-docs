@@ -1,0 +1,632 @@
+---
+title: "File Manager"
+description: "Manage, organize, and configure all uploaded PDF files in your case with InQuery's File Manager."
+---
+
+## Overview
+
+The **File Manager** provides a centralized interface for managing all documents uploaded to a case. From a single, organized table view you can:
+
+- View file details
+- Upload new files
+- Configure Bates numbering (if enabled)
+- Mark files as processed (Admin/Validator)
+- Upload/download demand letter templates (Admin only)
+- Download or delete individual files
+
+<Tip>
+  Access the File Manager by clicking the **Files** tab in the right panel of any open case.
+</Tip>
+
+---
+
+## File Manager Interface
+
+The File Manager displays files in a **sortable table**.
+
+### Columns
+
+- **Select** (Admin/Validator only, when unprocessed files exist)\
+  Checkbox column for bulk operations
+- **Filename**\
+  Clickable name to open the file in the PDF viewer
+- **View** (Bates enabled)\
+  Edit (pencil) icon to preview Bates overlay while staying in the File Manager
+- **Upload Date**\
+  Date the file was added to the case
+- **Pages**\
+  Total page count
+- **Status**\
+  Current processing state
+- **Bates Prefix** (Bates enabled)\
+  Editable Bates identifier
+- **Bates Start Page** (Bates enabled)\
+  Editable starting page number
+- **Actions**\
+  Download and Delete buttons (varies by role/permissions)
+
+---
+
+## Adding Files
+
+### Adding PDF files to a case
+
+**How to upload**
+
+1. Click **Add Files** (blue button at top-left)
+2. Select one or more PDF files
+3. Click **Open**
+4. Files upload with progress indicators
+
+### Upload specifications
+
+| Property             | Value                                                |
+| -------------------- | ---------------------------------------------------- |
+| File Types           | PDF only (.pdf)                                      |
+| Multiple Files       | Yes — select multiple files at once                  |
+| File Size Limit      | Typically several hundred MB (organization-specific) |
+| Simultaneous Uploads | All selected files upload in parallel                |
+
+### Upload progress
+
+- Each file shows an upload progress bar in the **Status** column
+- Percentage displays next to the progress bar
+- “Uploading…” indicator with upload icon
+- Progress updates in real-time
+
+### After upload completes
+
+- Status changes from **Uploading** → **Processing**
+- File becomes available in the PDF viewer
+- Backend begins OCR/text extraction and processing
+- Sections appear in the document index once processing completes
+
+---
+
+## Understanding File Status
+
+The **Status** column shows the current state of each file.
+
+### Status types
+
+1. **Uploading…**
+   - Icon: Blue upload arrow
+   - Progress bar: Shows percentage complete
+   - Meaning: File is transferring to server
+   - Duration: Seconds to minutes (file-size dependent)
+2. **Processing…**
+   - Icon: Spinning amber loader
+   - Meaning: Backend is processing the file (OCR, text extraction, section detection)
+   - Duration: Minutes to tens of minutes for large files
+   - Note: File may be viewable, but sections may not be ready yet
+3. **Processed**
+   - Icon: Green checkmark
+   - Meaning: File has been validated and is ready for user review
+   - Action: Admin/Validator marked the file as processed
+   - Note: File is fully ready
+
+**Typical progression:** Uploading → Processing → Processed
+
+<Info>
+  Files remain in **Processing** status until an **Admin or Validator** marks them as **Processed** using the bulk action button.
+</Info>
+
+---
+
+## Uploading Several Files at Once
+
+### Bulk upload process
+
+1. Click **Add Files**
+2. Select multiple PDFs:
+   - Windows: Hold **Ctrl** and click each file
+   - Mac: Hold **Cmd** and click each file
+   - Range select: Click first file, hold **Shift**, click last file
+3. Files upload simultaneously
+4. Each file shows its own progress bar
+
+### Performance notes
+
+- Uses multipart chunked upload (10MB chunks)
+- Multiple files upload in parallel
+- Large files won’t block small files
+- Each file processes independently after upload
+
+### Best practices
+
+- ✅ Upload all case files at once when possible
+- ✅ Organize by facility or date before uploading
+- ✅ Use clear, descriptive filenames
+- ❌ Avoid uploading non-medical documents (correspondence, etc.)
+- ❌ Don’t upload password-protected PDFs (they won’t process)
+
+---
+
+## Viewing and Navigating Files
+
+### Viewing file contents
+
+**Quick view**
+
+1. Click the **filename** in the table
+2. PDF viewer switches to that file
+3. Viewer opens to **page 1**
+4. Right panel switches to the **Viewer** tab
+
+**Filename as button**
+
+- Hover shows clickable styling (blue + underline)
+- Opens immediately (no confirmation)
+
+### Switching between files
+
+- Click a different filename to switch
+- Zoom resets
+- Page resets to page 1
+- Page rotations persist (if previously applied)
+
+---
+
+## Bates “View” (Edit icon) — Bates Enabled Only
+
+When Bates numbering is enabled, a **View** column appears with an **edit (pencil)** icon.
+
+### Using the View button
+
+1. Click the edit icon (pencil) for a file
+2. PDF viewer navigates to that file’s first page
+3. Bates overlay appears showing calculated Bates numbers
+4. You **stay on the File Manager tab** (does not switch to Viewer tab)
+5. Adjust Bates Prefix / Start Page while previewing results
+
+### Purpose
+
+- Preview how Bates numbers will look on real pages
+- Verify Bates setup before finalizing
+- Adjust while seeing results
+
+### Difference from filename click
+
+| Action              | Filename click       | View (edit icon)                |
+| ------------------- | -------------------- | ------------------------------- |
+| Opens PDF           | ✅ Yes                | ✅ Yes                           |
+| Switches tab        | ✅ Switches to Viewer | ❌ Stays in File Manager         |
+| Shows Bates overlay | ❌ No                 | ✅ Yes (if Bates enabled)        |
+| Best for            | General viewing      | Bates verification & adjustment |
+
+---
+
+## File Actions
+
+### Download original file
+
+Each file has a **Download** icon (down arrow) in the Actions column.
+
+**How to download**
+
+1. Find the file row
+2. Click the **Download** icon
+3. Browser downloads the original PDF
+4. File saves to your default downloads folder
+
+**What gets downloaded**
+
+- The original uploaded PDF
+- No modifications, summaries, or annotations
+
+**Download vs case export**
+
+- Individual download = original file only
+- Case export (download menu) = compiled/organized outputs with bookmarks/modifications
+
+**Use cases**
+
+- Share a specific source document
+- Backup original file
+- Compare original to processed output
+
+<Tip>
+  Hover over the download icon to see the tooltip: **“Download”**
+</Tip>
+
+### Removing files from a case
+
+Each file may have a **Delete** icon (trash) in the Actions column.
+
+**How to delete**
+
+1. Find the file row
+2. Click the **Delete** icon
+3. Confirm deletion if prompted
+4. File is removed from the case
+
+**What happens when deleting**
+
+- ❌ File removed from File Manager list
+- ❌ File removed from PDF viewer selector
+- ❌ All sections from that file are removed
+- ❌ Related summaries removed
+- ⚠️ Cannot be undone
+- 💾 File may remain in backend storage for audit purposes
+
+**When to delete**
+
+- Wrong file uploaded
+- Duplicate file
+- Belongs to another case
+- Poor scan quality (re-upload)
+- Non-medical document uploaded by mistake
+
+**Restrictions (may vary)**
+
+- Validators may not be able to delete (no Actions column)
+- Deletion may be disabled in some case states/permissions
+
+<Warning>
+  Deleting a file removes all associated sections and summaries and cannot be undone. Confirm you’re deleting the correct file.
+</Warning>
+
+---
+
+## Bates Numbering
+
+### Understanding Bates numbers
+
+Bates numbering assigns a unique identifier to each page.
+
+**Format:** `[PREFIX][NUMBER]`
+
+**Examples**
+
+- SMITH001, SMITH002, SMITH003
+- MED-2024-001, MED-2024-002
+- PLAINTIFF001, PLAINTIFF002
+
+**Why it matters**
+
+- ✅ Unique identification of each page
+- ✅ Easy citation in legal documents
+- ✅ Tracking documents in litigation
+- ✅ Preventing page misidentification
+- ✅ Maintaining record integrity
+
+### How InQuery calculates Bates
+
+1. Each file has a **Bates Prefix** (e.g., `SMITH`)
+2. Each file has a **Start Page** (e.g., `1`)
+3. InQuery calculates per-page: `Prefix + (StartPage + PageOffset - 1)`
+
+Example: 50-page file, prefix SMITH, start 1
+
+- Page 1 = SMITH001
+- Page 2 = SMITH002
+- Page 50 = SMITH050
+
+<Info>
+  Bates fields are only visible if your organization has Bates enabled.
+</Info>
+
+---
+
+## Editing Bates Prefix
+
+The **Bates Prefix** column supports inline editing.
+
+**How to edit**
+
+1. Double-click the Bates Prefix cell
+2. Type the new prefix (alphanumeric; hyphens allowed)
+3. Press **Enter** or click outside to save
+
+**Guidelines**
+
+- Prefer uppercase (e.g., `SMITH`, `MED-2024`)
+- Keep consistent across related files
+- Avoid special characters like `! @ # $ %`
+
+**Default prefix**
+
+- Often derived from the filename (without extension)
+
+**Common patterns**
+
+- By patient: `SMITH`, `JONES`
+- By case: `CASE2024`, `PI-001`
+- By facility: `HOSP-A`, `CLINIC-B`
+- By type: `MED`, `BILL`, `RAD`
+
+---
+
+## Editing Bates Start Page
+
+The **Bates Start Page** column supports inline editing.
+
+**How to edit**
+
+1. Double-click the Bates Start Page cell
+2. Type a number (digits only)
+3. Press **Enter** or click outside to save
+
+**Editing behavior**
+
+- Only digits allowed
+- Invalid values (negative/non-number) revert
+- **Escape** cancels edits
+- **Enter** saves edits
+
+### Example continuity setup
+
+File 1: Prefix SMITH, Start 1, 50 pages → SMITH001–SMITH050\
+File 2: Prefix SMITH, Start 51, 30 pages → SMITH051–SMITH080\
+File 3: Prefix SMITH, Start 81, 20 pages → SMITH081–SMITH100
+
+<Tip>
+  Use the **View (edit icon)** to preview Bates on pages while adjusting Prefix/Start Page.
+</Tip>
+
+---
+
+## Previewing Bates (Overlay)
+
+Clicking the **View (edit icon)** previews Bates overlay.
+
+**What it does**
+
+- Computes Bates numbers using current Prefix + Start Page + page count
+- Displays Bates overlay in the viewer
+- Helps verify first/last page numbers and continuity
+
+**Suggested workflow**
+
+1. Set Prefix and Start Page
+2. Click the edit icon to preview overlay
+3. Adjust Prefix/Start Page as needed
+4. Click again to refresh preview
+
+**Important**
+
+- Overlay does not modify the original PDF
+- Overlay is only visible inside InQuery
+
+---
+
+## Resetting Bates for the Case
+
+The **Reset Bates** button (orange, top toolbar) resets Bates for **all files**.
+
+**What it does**
+
+- Sets Bates Prefix = filename (no extension)
+- Sets Start Page = 1 for every file
+- Does not automatically create continuity across files
+
+**When to use**
+
+- Starting over
+- Fixing widespread configuration errors
+- Reordering files
+
+<Note>
+  InQuery does not automatically compute file-to-file continuity. You must set Start Pages or follow a continuity workflow to maintain sequential numbering across files.
+</Note>
+
+---
+
+## Admin / Validator Features
+
+### Marking files as processed (bulk)
+
+Admins and Validators can mark files as **Processed**.
+
+**When it appears**
+
+- User is Admin/Validator
+- At least one file is in Processing (unprocessed)
+- A top-right button appears: **“Mark as Processed (X)”**
+
+**How to use**
+
+1. Select files via the checkbox column
+2. Click **Mark as Processed**
+3. A success toast confirms the action
+4. Selected files update to **Processed** and checkboxes disappear
+
+**What “Processed” means**
+
+- File has been reviewed/validated
+- Sections are ready for review
+- Summaries are complete (if required by enabled services)
+- File contributes to overall case readiness
+
+**If validation fails**
+
+- You’ll see an error toast
+- Example cause: required summaries missing for enabled Medical Chronology workflows
+- Fix the issue and try again
+
+---
+
+## Demand Letter (Admin Only)
+
+### Upload demand letter
+
+**Button**
+
+- Green: **Upload Demand Letter**
+- Visible to Admin users only
+
+**How to upload**
+
+1. Click **Upload Demand Letter**
+2. Select a `.docx` or `.zip`
+3. Upload completes with progress indicator
+4. Success toast appears
+
+**Accepted types**
+
+- `.docx`
+- `.zip` (template + resources)
+
+<Info>
+  Regular users and Org Admins do not see this button. Only system-level Admins can upload demand letters.
+</Info>
+
+### Download demand letter
+
+**Button**
+
+- Purple: **Download Demand Letter**
+- Visible to Admin users only
+
+**How to download**
+
+1. Click **Download Demand Letter**
+2. Browser downloads the original uploaded demand letter file
+
+**Errors**
+
+- 404: No demand letter uploaded yet (“No demand letter found”)
+- Other failures: server or permission errors
+
+<Note>
+  Download Demand Letter only works if a demand letter has been uploaded for the case.
+</Note>
+
+---
+
+## File Manager Workflows
+
+### Adding files to a new case
+
+1. Upload all PDFs (preferably in one batch)
+2. Monitor Status until files move to Processing
+3. Configure Bates (if enabled):
+   - Standardize Prefixes
+   - Set Start Pages for continuity
+   - Preview overlay with the edit icon
+4. Admin/Validator reviews and marks files as Processed
+
+### Uploading additional documents later
+
+1. Upload new PDFs
+2. Update Bates continuity:
+   - Find the last Bates number from existing files
+   - Set new file Start Page to the next number
+   - Preview overlay to verify
+3. Admin/Validator marks new files as Processed
+
+### Fixing post-upload mistakes
+
+1. Delete incorrect/duplicate files (if permitted)
+2. Upload correct file
+3. Adjust Bates Start Pages if continuity was affected
+4. Re-verify overlay
+
+### Maintaining Bates continuity (recommended checklist)
+
+- Choose a prefix strategy (single prefix vs patterned prefixes)
+- Set Start Pages sequentially across files
+- Preview first and last page overlay for each file
+- Fix gaps/overlaps immediately
+
+---
+
+## Troubleshooting
+
+### File won’t upload
+
+**Common causes & fixes**
+
+1. Non-PDF selected → upload PDF only
+2. File too large → compress/split PDF
+3. Network interruption → retry with stable connection
+4. Password-protected PDF → remove password protection
+5. Corrupted PDF → obtain a new copy
+
+### File never becomes Processed
+
+**Possible reasons**
+
+- Very large file (500+ pages can take a long time)
+- Poor scan quality slows OCR/processing
+- Backend processing failure (support needed)
+- Admin/Validator hasn’t marked it as Processed yet
+
+### Bates looks wrong
+
+**Common issues**
+
+- Gaps: Start Pages not sequential
+- Overlaps: Two files share overlapping Start Pages
+- Incorrect prefix: typos or inconsistent pattern
+- Overlay not appearing: use the edit icon; confirm Bates is enabled
+
+### Delete button not visible/working
+
+- Validator role may not have delete permission
+- Case status may restrict deletion
+- User lacks permission
+- File may be referenced in certain workflows (handle carefully)
+
+### Demand letter issues
+
+- Upload fails → file must be `.docx` or `.zip`
+- Download “Not Found” → upload hasn’t happened yet
+- Buttons missing → Admin-only feature
+
+---
+
+## Best Practices
+
+### Keep files organized
+
+- ✅ Use descriptive filenames (facility + date + type)
+- ✅ Upload in logical order (chronological or by facility)
+- ✅ Ensure scans are readable and oriented correctly
+- ❌ Avoid generic names like `scan.pdf`
+
+### Bates numbering best practices
+
+- ✅ Use consistent prefixing strategy
+- ✅ Maintain sequential Start Pages across files
+- ✅ Preview overlay for every file before finalizing
+- ✅ Track Bates ranges externally when needed
+
+### Process efficiently (Admins/Validators)
+
+- ✅ Review files in batches
+- ✅ Use bulk “Mark as Processed”
+- ✅ Confirm section detection + required summaries before processing
+
+---
+
+## Summary
+
+### File Manager features
+
+- ✅ Upload multiple PDFs with progress tracking
+- ✅ Open files in PDF viewer via filename
+- ✅ Download original PDFs individually
+- ✅ Delete files (permission-dependent; irreversible)
+- ✅ Bates Prefix + Start Page editing (if enabled)
+- ✅ Bates overlay preview via View (edit icon)
+- ✅ Reset Bates for the entire case
+- ✅ Bulk “Mark as Processed” (Admin/Validator)
+- ✅ Upload/Download Demand Letter (Admin only)
+
+### Remember
+
+- Only PDFs are accepted for upload
+- Bates columns appear only if Bates is enabled
+- Validators may not be able to delete files
+- Demand letter tools are Admin-only
+- Deletions are permanent
+
+---
+
+## Related Documentation
+
+- PDF Viewer → Viewing and navigating documents
+- Uploading Cases → Initial case creation and file upload
+- Downloading Cases → Exporting compiled case files
+- Document Index → Organizing sections from uploaded files

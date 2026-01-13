@@ -14,12 +14,54 @@
         "group": "Get Started",
         "pages": [
           "get-started/introduction",
+          "get-started/services",
           "get-started/quickstart",
           "get-started/terminology"
         ]
       },
       {
-        "group": "Essentials",
+        "group": "Product Features",
+        "pages": [
+          {
+            "group": "Cases Dashboard",
+            "pages": [
+              "get-started/managing-cases",
+              "get-started/uploading-a-case"
+            ]
+          },
+          {
+            "group": "Inside a Case",
+            "pages": [
+              {
+                "group": "Right Panel",
+                "pages": [
+                  "product-features/inside-a-case/right-panel/file-manager",
+                  "product-features/inside-a-case/right-panel/pdf-viewer"
+                ]
+              },
+              {
+                "group": "Left Panel",
+                "pages": [
+                  "product-features/inside-a-case/left-panel/document-summary",
+                  {
+                    "group": "Case Information",
+                    "pages": [
+                      "product-features/inside-a-case/left-panel/case-information/missing-records",
+                      "get-started/billing",
+                      "get-started/case-info"
+                    ]
+                  },
+                  "get-started/untitled-page",
+                  "get-started/document-section",
+                  "get-started/downloading-cases"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Concepts",
         "pages": [
           "essentials/case-management",
           "essentials/file-management",

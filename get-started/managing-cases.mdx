@@ -1,0 +1,283 @@
+---
+title: "Managing Cases"
+---
+
+The **Cases Dashboard** is your central hub for viewing, searching, filtering, and managing all cases in InQuery. It gives you a real-time view of case progress across different stages of review.
+
+:::tip[Quick Navigation] Use **tabs** to switch case views, **search** to find specific cases, and **filters** to narrow by case type, project, or status. :::
+
+---
+
+## Case Views
+
+<AccordionGroup>
+  <Accordion title="Available Cases">
+    Cases that are ready for work and not yet closed.
+
+    **What you’ll see:**
+
+    - Processed and validated cases
+    - Active cases visible to users
+    - Cases ready for review or delivery
+
+    **Typical workflow:**
+
+    1. Case finishes processing
+    2. Case becomes visible to users
+    3. Work is completed
+    4. Case is eventually closed
+
+    **Appears when:**
+
+    - Case is validated
+    - Case is visible to users
+    - External status is not “Closed”
+
+    :::info This is the default working view for most users. :::
+  </Accordion>
+  <Accordion title="Pending Cases">
+    Cases that are still processing or awaiting validation.
+
+    **What you’ll see:**
+
+    - Newly uploaded cases
+    - Cases with unvalidated files
+    - Cases not yet visible to users
+
+    **Why cases are pending:**
+
+    - Regular users: case not visible yet
+    - Admins/validators: unvalidated files or hidden case
+
+    **Admin / validator actions:**
+
+    - Validate uploaded files
+    - Ensure required services are complete
+    - Make cases visible to users
+    - Bulk release multiple cases
+
+    :::note Validators and Admins can bulk-select cases and release them all at once. :::
+  </Accordion>
+  <Accordion title="Closed Cases">
+    Completed cases that have been archived.
+
+    **What you’ll see:**
+
+    - Cases marked with external status “Closed”
+    - Historical cases for reference
+
+    **Why close cases:**
+
+    - Reduce clutter
+    - Track completed work
+    - Improve dashboard performance
+
+    :::tip Closed cases can be reopened by changing the external status. :::
+  </Accordion>
+  <Accordion title="All Cases">
+    A unified view of every case.
+
+    **Includes:**
+
+    - Available cases
+    - Pending cases
+    - Closed cases
+
+    **When to use:**
+
+    - Global searches
+    - Audits or reporting
+    - Cross-status comparisons
+
+    :::note This tab may load more slowly for large organizations. :::
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Search
+
+Instant, real-time search across multiple case fields.
+
+<AccordionGroup>
+  <Accordion title="Searchable Fields">
+    **Core fields:**
+
+    - Patient name
+    - Case number
+    - Case type
+    - Referral source
+    - Internal status
+    - External status
+
+    **Admin-only:**
+
+    - User email
+
+    **Validator-only:**
+
+    - Organization name
+  </Accordion>
+  <Accordion title="Service Keywords">
+    **Medical Chronology:** med, medical, chron, chronology\
+    **Demand Letters:** demand, letter, bi, um, uim, pip, no-fault\
+    **Case Info:** case, info, structured, extraction, data
+  </Accordion>
+  <Accordion title="Search Behavior">
+    - Updates as you type
+    - Case-insensitive
+    - Partial matches supported
+    - Combined with active filters
+    - Matches any field
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Filters
+
+Filters narrow cases by structured attributes and combine with search.
+
+<AccordionGroup>
+  <Accordion title="Filter Access & States">
+    - Located left of the search bar
+    - Badge shows active filter count
+    - Visual states indicate active/open filters
+  </Accordion>
+  <Accordion title="Case Type Filter">
+    - Filter by one or more case types
+    - Supports multi-select
+    - Includes “No Case Type” option
+
+    :::info Case types must be configured by an Admin. :::
+  </Accordion>
+  <Accordion title="Project Filter">
+    - Groups cases by project
+    - Requires Bates numbering
+    - Supports “No Project”
+
+    :::note Only visible when Bates numbering is enabled. :::
+  </Accordion>
+  <Accordion title="Case Status Filter (Admin Only)">
+    **Statuses:**
+
+    - Ready for Review
+    - In Progress
+    - Ready for Re-Review
+    - Ready for Release
+
+    :::warning Only visible to system-level Admins. :::
+  </Accordion>
+  <Accordion title="Using Multiple Filters">
+    - Filters use AND logic
+    - Filters apply before search
+    - Improves performance on large datasets
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Active Filter Pills
+
+When filters are active, pills appear below the search bar.
+
+**What pills show:**
+
+- Filter category
+- Selected value
+- Remove (X) button
+- “Clear all” option
+
+**Clearing filters:**
+
+- Remove individual pills
+- Clear all at once
+- Pills disappear when no filters remain
+
+---
+
+## Sorting
+
+Click column headers to sort cases.
+
+<AccordionGroup>
+  <Accordion title="Sortable Columns">
+    **Core:**
+
+    - Patient name
+    - Case number
+    - Case type
+    - Created date
+    - Last activity date
+    - Report due date
+    - Total page count
+
+    **Role-specific:**
+
+    - User email (Admins)
+    - Organization name (Validators)
+
+    **Advanced:**
+
+    - Referral source
+    - Internal status
+    - External status
+    - Billing status
+    - Project
+    - Services count
+  </Accordion>
+  <Accordion title="Sorting Behavior">
+    - Click to sort ascending
+    - Click again to reverse
+    - Persists during session
+    - Applies across all tabs
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Find Cases Fast">
+    Use search for names or numbers instead of scrolling.
+  </Card>
+  <Card title="Filter Before Searching">
+    Reduce results first for faster performance.
+  </Card>
+  <Card title="Close Completed Cases">
+    Keeps active workspace clean and fast.
+  </Card>
+  <Card title="Sort by Deadlines">
+    Prioritize work using Report Due Date.
+  </Card>
+</CardGroup>
+
+---
+
+## Summary
+
+**Dashboard Features:**
+
+- Four case views (Available, Pending, Closed, All)
+- Real-time search with flexible keywords
+- Filters for type, project, and status
+- Active filter pills for visibility
+- Column-based sorting
+- Bulk actions for Admins
+
+**Key Reminders:**
+
+- Search is case-insensitive
+- Filters use AND logic
+- Sorting applies to filtered results
+- Admin-only features are role-gated
+
+---
+
+## Related Documentation
+
+- Uploading Cases
+- Case Info
+- Downloading Cases
+- Document Summaries

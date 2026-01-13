@@ -1,0 +1,216 @@
+---
+title: "Services"
+description: "Services are the processing operations InQuery performs on your uploaded documents. Understanding each service helps you select the right combination for your needs."
+---
+
+## Available Services
+
+<Info>
+  Services can be enabled per case (or set to always-on by your organization). If a service is configured as <b>ALWAYS</b>, you may not see it as a checkbox.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="Indexing (Default)" icon="list-check">
+    **What it does**
+
+    - Creates a basic index of all documents in the case
+    - Identifies document types (medical records, bills, correspondence, etc.), dates, document authors, and authoring institutions
+    - Organizes documents chronologically
+    - Provides document-level summaries
+
+    **When to use**
+
+    - Always included by default
+    - Essential for document organization
+    - Required for efficient case review
+
+    **Output**
+
+    - Organized document index
+    - Document type classifications
+    - Basic document metadata
+
+    <Info>
+      Indexing is typically configured to be always included for your case type.
+    </Info>
+  </Accordion>
+
+  <Accordion title="Medical Chronology" icon="timeline">
+    **What it does**
+
+    - Extracts medical events from your documents and builds a chronological timeline of care
+    - Identifies doctor visits, diagnoses, treatments/procedures, medications, tests/imaging, and hospitalizations
+
+    **When to use**
+
+    - Personal injury cases
+    - Medical malpractice cases
+    - Workers' compensation cases
+    - Any matter where understanding the medical timeline is critical
+
+    **Output**
+
+    - Detailed medical timeline
+    - Event-level summaries
+    - Provider and facility information
+    - Diagnosis and treatment tracking
+
+    **Dependencies**
+
+    - Required if you select **Demand Letters**
+    - Automatically checked when **Demand Letters** is selected
+
+    ![Medical Chronology Example](/images/medical-chronology-sample.png)
+
+    <Warning>
+      If you uncheck Medical Chronology, Demand Letters will also be unchecked automatically since demand letters require medical chronology data.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Case Info (Structured Extraction)" icon="table">
+    **What it does**
+
+    - Extracts structured case facts from your documents, including:
+      - Patient demographics (name, DOB, address)
+      - Accident/incident details
+      - Insurance information
+      - Provider information
+      - Key dates and locations
+      - Injury descriptions
+
+    **When to use**
+
+    - Quick access to key case facts
+    - Case summary preparation
+    - Populating case management systems
+    - Reporting and analytics
+
+    **Output**
+
+    - Structured data fields
+    - Key dates and parties
+    - Insurance details
+    - Extracted case facts
+
+    ![Case Info Extraction](/images/case-info-structured.png)
+  </Accordion>
+
+  <Accordion title="Demand Letters" icon="file-pen">
+    **What it is**
+
+    - AI-generated demand letters based on the medical record
+    - Customized by claim type
+    - Includes medical summary, damages, and settlement demand
+
+    <Info>
+      Demand Letters are available only if enabled for your organization (<code>show_demand_letter</code>).
+    </Info>
+
+    **Requirements**
+
+    - Demand Letters must be enabled for your organization
+    - **Medical Chronology** must be selected (required dependency)
+
+    ### Demand Letter Types
+
+    <CardGroup cols={2}>
+      <Card title="Bodily Injury (BI)" icon="scale-balanced">
+        <b>Use for:</b> Standard bodily injury claims against an at-fault party<br/>
+        <b>Best for:</b> Auto accidents, slip and falls, general negligence
+      </Card>
+      <Card title="Uninsured Motorist (UM)" icon="car-burst">
+        <b>Use for:</b> Claims when the at-fault driver has no insurance<br/>
+        <b>Best for:</b> No coverage or hit-and-run scenarios
+      </Card>
+      <Card title="Underinsured Motorist (UIM)" icon="shield">
+        <b>Use for:</b> Claims when at-fault limits are insufficient<br/>
+        <b>Best for:</b> Serious injuries exceeding policy limits
+      </Card>
+      <Card title="PIP/No-Fault (PIP/NF)" icon="file-shield">
+        <b>Use for:</b> Personal Injury Protection / No-Fault claims<br/>
+        <b>Best for:</b> No-fault jurisdictions and benefit maximization
+      </Card>
+    </CardGroup>
+
+    <AccordionGroup>
+      <Accordion title="What each letter includes">
+        - Liability or coverage framing (depending on type)
+        - Medical treatment overview (from Medical Chronology)
+        - Special damages (e.g., medical bills, lost wages)
+        - General damages (e.g., pain and suffering)
+        - Settlement demand with justification
+      </Accordion>
+
+      <Accordion title="Selecting multiple demand letter types">
+        You can select multiple demand letter types for a single case. This is useful when:
+
+        - You’re pursuing multiple claims (e.g., third-party liability + UIM)
+        - You want multiple demand strategies
+        - Your case may involve multiple insurance policies
+      </Accordion>
+
+      <Accordion title="Output">
+        - Complete demand letter for each type selected
+        - Medical summary section
+        - Damages calculation
+        - Professional formatting ready for review
+      </Accordion>
+    </AccordionGroup>
+
+    ![Demand Letter Selection](/images/demand-letter-multiselect.png)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Service Selection Best Practices
+
+<Tip>
+  <b>Start with the basics</b>
+
+  - Always include <b>Indexing</b> (usually automatic)
+  - Add <b>Medical Chronology</b> for medical-driven matters
+  - Add <b>Case Info</b> for quick reference and reporting
+  - Add <b>Demand Letters</b> when you're ready to negotiate settlement
+
+  <br/><br/>
+  <b>You can always add more services later</b> using the “Request Additional Services” feature.
+</Tip>
+
+### Common Service Combinations
+
+<CardGroup cols={2}>
+  <Card title="Personal Injury" icon="person-walking">
+    Indexing + Medical Chronology + Case Info + Demand Letter (BI)
+  </Card>
+  <Card title="Auto Accident (Serious Injuries)" icon="car">
+    Indexing + Medical Chronology + Case Info + Demand Letters (BI + UIM)
+  </Card>
+  <Card title="Workers' Comp" icon="briefcase-medical">
+    Indexing + Medical Chronology + Case Info
+  </Card>
+  <Card title="Medical Malpractice" icon="user-doctor">
+    Indexing + Medical Chronology + Case Info
+  </Card>
+  <Card title="Initial Review Only" icon="magnifying-glass">
+    Indexing + Case Info
+  </Card>
+</CardGroup>
+
+---
+
+## Uploading Additional Files
+
+After creating a case, you can upload additional documents at any time.
+
+<AccordionGroup>
+  <Accordion title="When to Upload Additional Files" icon="upload">
+    **Common scenarios**
+
+    - New medical records received from providers
+    - Updated billing statements
+    - Correspondence or legal documents
+    - Expert reports
+    - Supplemental medical evaluation
+  </Accordion>
+</AccordionGroup>

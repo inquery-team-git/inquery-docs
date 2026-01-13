@@ -1,0 +1,329 @@
+---
+title: "Downloading a Case"
+---
+
+InQuery provides a flexible, background-based download system that lets you export medical records, summaries, chronologies, billing documents, and custom reports in multiple formats—without interrupting your workflow.
+
+:::tip[Key Features]
+
+- Multiple formats: PDF, Word (.docx), CSV
+- Fully customizable content
+- Real-time progress tracking
+- Parallel file generation
+- Email notifications on completion
+- Organization-level default settings\
+  :::
+
+---
+
+## Accessing the Download Menu
+
+<Steps>
+  <Step title="Locate the Download Button">
+    Find the blue download icon in the top case toolbar near other case actions.
+  </Step>
+  <Step title="Open Download Options">
+    Click the download button to open the file selection dropdown.
+  </Step>
+  <Step title="Review Available Files">
+    View all downloadable file types. Some may be disabled if prerequisites are not met.
+  </Step>
+</Steps>
+
+:::info[Accessibility] The download button is always visible, but specific file types only appear when their requirements are satisfied. :::
+
+---
+
+## Available Download Types
+
+<AccordionGroup>
+  <Accordion title="Primary File (PDF)">
+    **Purpose:** Main compilation of all currently displayed medical records.
+
+    **Includes:**
+
+    - Displayed document sections only
+    - Bookmarks and navigation
+    - Optional dividers by document type
+    - Hierarchical grouping
+    - Optional patient-name footer
+
+    **Customization:**
+
+    - Respects current filters and grouping
+    - Optional document type, provider in TOC
+    - Optional footer
+
+    **Best For:**
+
+    - Sharing curated case files
+    - Archiving reviewed records
+  </Accordion>
+  <Accordion title="Ancillary File (PDF)">
+    **Purpose:** Captures everything excluded from the primary view.
+
+    **Includes:**
+
+    - Filtered or excluded sections
+    - Duplicate or non-relevant records
+    - Same formatting and bookmarks as Primary File
+
+    **Best For:**
+
+    - Compliance and audit trails
+    - Preserving excluded materials
+
+    :::note Only visible if sections are filtered out. :::
+  </Accordion>
+  <Accordion title="Medical Chronology">
+    **Purpose:** Chronological timeline of medical events.
+
+    **Formats:**
+
+    - PDF (default)
+    - CSV (requires Bates)
+    - Word (.docx, if enabled)
+
+    **Options:**
+
+    - Include source documents (PDF only)
+    - Include executive summary (PDF only)
+    - Include case-level info (PDF only)
+
+    **Best For:**
+
+    - Legal review
+    - Case analysis
+    - Data export
+
+    :::warning Including source documents significantly increases file size and generation time. :::
+  </Accordion>
+  <Accordion title="Executive Summary (.docx)">
+    **Purpose:** Editable AI-generated case overview.
+
+    **Includes:**
+
+    - Case summary
+    - Key findings
+    - Dates and insights
+    - Case-level data tables
+
+    **Best For:**
+
+    - Stakeholder briefings
+    - Editable reports
+
+    :::info Must be generated before download. :::
+  </Accordion>
+  <Accordion title="Table of Contents (.docx)">
+    **Purpose:** List of all medicals reviewed.
+
+    **Includes:**
+
+    - Document dates
+    - Types
+    - Providers (optional)
+    - Institutions (optional)
+    - Page ranges
+
+    :::note This option may be disabled in the current build. :::
+  </Accordion>
+  <Accordion title="Bills (PDF / ZIP)">
+    **Purpose:** Export billing documents grouped by facility.
+
+    **Output:**
+
+    - Single PDF per facility
+    - ZIP if multiple facilities
+
+    :::info Requires billing sections and proper permissions. :::
+  </Accordion>
+  <Accordion title="Demand Letter (.docx)">
+    **Purpose:** Download a pre-generated demand letter.
+
+    **Includes:**
+
+    - Template-based content
+    - Case-specific data
+
+    :::info Only appears if a demand letter exists for the case. :::
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Download Customization Options
+
+<AccordionGroup>
+  <Accordion title="Table of Contents & Bookmarks">
+    Control TOC and bookmark detail:
+
+    - Document type labels
+    - Provider names
+
+    Affects:
+
+    - Primary File
+    - TOC document
+  </Accordion>
+  <Accordion title="Page Footers">
+    Optionally add patient name to each page footer.
+
+    **Use when:**
+
+    - Files may be separated
+    - Policy requires identification
+  </Accordion>
+  <Accordion title="Organization Default Settings (Admin)">
+    Admins may be prompted to apply default filters and grouping before download.
+
+    Options:
+
+    - Apply defaults and download
+    - Download as-is
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Download Process
+
+<Steps>
+  <Step title="Select Files">
+    Choose one or more file types from the download menu.
+  </Step>
+  <Step title="Configure Options">
+    Adjust chronology, TOC, footer, and grouping options.
+  </Step>
+  <Step title="Initiate Download">
+    Click **Download Selected** and confirm any warnings.
+  </Step>
+  <Step title="Monitor Progress">
+    Track status in the progress modal while continuing work.
+  </Step>
+  <Step title="Access Files">
+    Files download automatically or via emailed links.
+  </Step>
+</Steps>
+
+---
+
+## Download Progress Tracking
+
+<AccordionGroup>
+  <Accordion title="Status Indicators">
+    | Icon | Status      | Meaning              |
+    | ---- | ----------- | -------------------- |
+    | 🔵   | Generating  | File creation        |
+    | ⬇️   | Downloading | Transfer in progress |
+    | ✅    | Completed   | Download finished    |
+    | ❌    | Error       | Failed               |
+  </Accordion>
+  <Accordion title="Parallel Processing">
+    - Multiple files generate simultaneously
+    - Each file tracked independently
+    - Background processing via task queues
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Common Download Scenarios
+
+<CardGroup cols={2}>
+  <Card title="Complete Case Package">
+    Primary File + Medical Chronology (PDF) + Executive Summary
+  </Card>
+  <Card title="Court-Ready Legal Package">
+    Medical Chronology (with sources) + Bills + Demand Letter
+  </Card>
+  <Card title="Data Analysis Export">
+    Medical Chronology (CSV with Bates)
+  </Card>
+  <Card title="Quick Overview">
+    Executive Summary (.docx)
+  </Card>
+  <Card title="Billing Review">
+    Bills + Primary File (billing-only filter)
+  </Card>
+</CardGroup>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Download Option Missing">
+    - Check prerequisites (AI summary, billing sections, permissions)
+    - Verify Bates for CSV
+  </Accordion>
+  <Accordion title="File Too Large">
+    - Exclude source documents
+    - Apply filters
+    - Split by date range
+  </Accordion>
+  <Accordion title="Errors During Generation">
+    - Retry after a few minutes
+    - Clear modal and reattempt
+    - Contact support with case ID
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Email Notifications
+
+- Sent when downloads finish after navigation away
+- One email per file
+- Links expire after 24–48 hours
+
+---
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Prepare View First">
+    Filters and grouping define download output
+  </Card>
+  <Card title="Fix Invalid Groups">
+    Prevent missing chronology entries
+  </Card>
+  <Card title="Use CSV for Analysis">
+    Smallest size, best for spreadsheets
+  </Card>
+  <Card title="Include Sources for Legal Use">
+    Improves defensibility and citation
+  </Card>
+</CardGroup>
+
+---
+
+## Custom AI Reports
+
+<AccordionGroup>
+  <Accordion title="Available Reports">
+    - Facts of the Accident
+    - Injuries and Medical Treatment
+  </Accordion>
+  <Accordion title="How They Work">
+    Generated in-case via AI and can be included in other downloads.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Summary
+
+- Flexible, background-based downloads
+- Multiple formats and customization
+- Real-time progress + email notifications
+- Optimized for legal, clinical, and analytical workflows
+
+---
+
+## Related Documentation
+
+- Case Info
+- Billing Analysis
+- Document Summaries
+- PDF Viewer

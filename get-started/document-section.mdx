@@ -1,0 +1,381 @@
+---
+title: "Document Section"
+description: "Every document section in InQuery includes an AI-generated summary that distills key information from the medical record. Summaries help you rapidly review cases without reading every page of every document."
+---
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Section Summaries" icon="file-lines">
+    Individual summaries for each document section (progress notes, labs, etc.)
+  </Card>
+  <Card title="Executive Summary" icon="sparkles">
+    Case-level overview synthesizing all section summaries together
+  </Card>
+  <Card title="Group Summaries" icon="folder">
+    Summaries for grouped sections such as admissions or date ranges
+  </Card>
+  <Card title="Medical Chronology" icon="clock">
+    Timeline summaries with customizable columns
+  </Card>
+</CardGroup>
+
+---
+
+## Opening a Document Section
+
+Document sections in the left panel can be expanded to view their summaries and metadata.
+
+### Expanding a Section
+
+Click on any document section to expand it and view:
+
+- AI-generated summary
+- Document metadata (date, provider, institution, pages)
+- Section tabs (Summary, Findings, Billing Info)
+- Action buttons (Edit, Feedback, Citations)
+
+![Expanded Document Section](/images/expanded-section.png)
+
+<AccordionGroup>
+  <Accordion title="Section header components">
+    **Collapsed view shows:**
+
+    - **Document Type Badge** – Color-coded category (Progress Note, Lab Result, etc.)
+    - **Title** – Document description or auto-generated title
+    - **Date** – Document date (if available)
+    - **Page Range** – Start and end page numbers
+    - **Relevance Badge** – High or Low relevance indicator
+    - **Provider/Institution** – If enabled for your organization
+    - **Expand Arrow** – Click anywhere on the header to toggle
+
+    ![Section Header](/images/section-header.png)
+  </Accordion>
+  <Accordion title="Collapsed vs expanded states">
+    **Collapsed (default):**
+
+    - Single-line header only
+    - Optimized for scanning large document lists
+
+    **Expanded:**
+
+    - Full summary displayed
+    - Tabs and action buttons visible
+    - Multiple sections can be expanded at once
+
+    <Tip>
+      **Performance tip:** Expanding many sections at once can slow scrolling. Collapse sections you are not actively reviewing.
+    </Tip>
+  </Accordion>
+  <Accordion title="Section tabs">
+    Expanded sections include tabs for different content views.
+
+    **Summary tab (default):**
+
+    - AI-generated narrative summary
+    - Structured with headers and bullet points
+
+    **Findings tab (if available):**
+
+    - Structured medical findings
+    - Diagnosis codes such as ICD-10
+
+    **Billing Info tab (billing documents only):**
+
+    - Charges and payment information
+    - CPT and billing-related data
+
+    ![Section Tabs](/images/section-tabs.png)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Summary Display
+
+Summaries appear in the expanded section with rich formatting.
+
+**Formatting elements include:**
+
+- **Headers** for logical sections
+- **Bold text** for important findings
+- **Bullet points** for lists
+- **Paragraphs** for narrative detail
+
+**Example summary structure:**
+
+Chief Complaint\
+• Patient presents with chest pain
+
+Examination\
+Patient reports substernal chest pressure radiating to left arm.\
+Vital signs: BP 140/90, HR 88, RR 16.
+
+Assessment\
+Possible acute coronary syndrome. ECG shows ST elevation in leads II, III, aVF.
+
+Plan\
+• Admit to CCU\
+• Start heparin drip\
+• Cardiology consult
+
+---
+
+## Summary Validation Status
+
+<Warning>
+  **Invalid summary warning (Admin or Validator only)**
+
+  You may see a message indicating that pages were added or removed. This means the summary may no longer reflect the full section content and should be regenerated.
+</Warning>
+
+**What to do:**
+
+- Regenerate the executive summary to update all invalid section summaries
+- Or proceed if changes were minor and accuracy is acceptable
+
+---
+
+## Medical Chronology Mode Summaries
+
+Medical Chronology Mode provides a timeline-oriented view with structured summary columns.
+
+### What this mode does
+
+- Shows only medical document types
+- Automatically sorts by date (oldest to newest)
+- Displays summaries in a table format
+- Excludes non-medical documents such as billing and correspondence
+
+### Entering and exiting
+
+- Click the **Clock icon** in the toolbar to enter
+- Click the icon again or press **Escape** to exit
+
+![Medical Chronology Mode](/images/med-chron-mode.png)
+
+<AccordionGroup>
+  <Accordion title="Customizing summary columns">
+    **Default columns:**
+
+    - Summary
+    - Date
+
+    **Custom columns (Admin or Validator):**
+
+    - Configure columns such as Medications, Diagnoses, or Vital Signs
+    - Save configuration to regenerate summaries in table format
+
+    ![Custom Columns Modal](/images/medchron-columns-modal.png)
+  </Accordion>
+  <Accordion title="Best practices">
+    <CardGroup cols={2}>
+      <Card title="Chronological order" icon="calendar">
+        Keep ascending date order to follow treatment progression
+      </Card>
+      <Card title="Relevant columns" icon="table-columns">
+        Customize columns based on case type
+      </Card>
+      <Card title="Continuous review" icon="scroll">
+        Scroll through care events without jumping between sections
+      </Card>
+      <Card title="Admission grouping" icon="folder">
+        Use automatic folders for inpatient stays
+      </Card>
+    </CardGroup>
+  </Accordion>
+  <Accordion title="Included document types">
+    **Typically included:** progress notes, labs, imaging, operative notes, ED notes\
+    **Typically excluded:** billing, correspondence, administrative documents
+
+    <Info>
+      Exact inclusion depends on your organization’s configuration.
+    </Info>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Editing a Summary
+
+You can manually edit any section summary.
+
+<Steps>
+  <Step title="Open the section">
+    Expand the document section.
+  </Step>
+  <Step title="Edit">
+    Double-click the summary text to enter edit mode.
+  </Step>
+  <Step title="Save or cancel">
+    Save with **Ctrl + Enter** or **Cmd + Enter**, or click away. Press **Escape** to cancel.
+  </Step>
+</Steps>
+
+![Editing Summary](/images/edit-summary.png)
+
+<AccordionGroup>
+  <Accordion title="Who can edit summaries">
+    **All authenticated users** can edit summaries.
+
+    <Note>
+      Changes save immediately and are visible to all users with access.
+    </Note>
+  </Accordion>
+  <Accordion title="Markdown support">
+    Summaries support markdown formatting such as headers, bold text, and bullet points.
+
+    ```
+    ## Examination
+    Patient reports **severe headache**.
+    • BP: 140/90
+    • HR: 88
+    ```
+  </Accordion>
+  <Accordion title="Edit vs regenerate">
+    **Edit manually** for small corrections or added context.\
+    **Regenerate** when summaries are invalid or significantly incorrect.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Summary Citations (Explain Source)
+
+<Note>
+  **Admin-only feature.** Summary citations trace claims back to source pages in the PDF.
+</Note>
+
+<Steps>
+  <Step title="Select summary text">
+    Highlight at least ten characters in the summary.
+  </Step>
+  <Step title="Click Explain Source">
+    Button appears when text is selected.
+  </Step>
+  <Step title="Review results">
+    Quotes, page numbers, and reasoning appear below the summary.
+  </Step>
+</Steps>
+
+![Citation Results](/images/citation-results.png)
+
+<AccordionGroup>
+  <Accordion title="Using citation results">
+    - Quotes are clickable and jump to the source page
+    - Multiple supporting quotes may be returned
+    - No results may indicate a generalized or unsupported claim
+  </Accordion>
+  <Accordion title="When citations help">
+    <CardGroup cols={2}>
+      <Card title="Accuracy checks" icon="check-circle">
+        Validate AI summaries before use in reports
+      </Card>
+      <Card title="Source discovery" icon="magnifying-glass">
+        Find original context quickly
+      </Card>
+    </CardGroup>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Providing Feedback
+
+You can submit feedback directly from a section summary.
+
+<Steps>
+  <Step title="Expand section">
+    Open the document section.
+  </Step>
+  <Step title="Optional selection">
+    Highlight any problematic text.
+  </Step>
+  <Step title="Submit feedback">
+    Click the feedback button and complete the form.
+  </Step>
+</Steps>
+
+![Feedback Modal](/images/feedback-modal.png)
+
+<AccordionGroup>
+  <Accordion title="Feedback best practices">
+    Be specific, highlight the issue, and explain expected versus actual behavior.
+  </Accordion>
+  <Accordion title="What happens next">
+    Feedback is sent to the InQuery team for triage and follow-up.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Executive Summary
+
+The Executive Summary provides a case-level synthesis of all section summaries.
+
+![Executive Summary Location](/images/executive-summary-location.png)
+
+<AccordionGroup>
+  <Accordion title="Executive vs section summaries">
+    Executive summaries cover the entire case, while section summaries focus on individual documents.
+  </Accordion>
+  <Accordion title="Regenerating the executive summary">
+    Regenerate after new uploads, service changes, or when summaries are invalid.
+  </Accordion>
+  <Accordion title="Custom instructions">
+    Add instructions to focus the summary on injuries, causation, or specific findings.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Group Summaries
+
+Group summaries synthesize multiple sections, such as hospital admissions or date ranges.
+
+<Steps>
+  <Step title="Create groups">
+    Use automatic or manual grouping in Medical Chronology Mode.
+  </Step>
+  <Step title="Process groups">
+    Click the process button to generate summaries.
+  </Step>
+  <Step title="Review results">
+    Group summaries appear in group headers.
+  </Step>
+</Steps>
+
+---
+
+## Common Issues and Solutions
+
+<AccordionGroup>
+  <Accordion title="Summary seems inaccurate">
+    Regenerate, edit manually, or submit feedback if issues persist.
+  </Accordion>
+  <Accordion title="Explain Source returns no results">
+    Try selecting different text or manually review the document.
+  </Accordion>
+  <Accordion title="Cannot edit summary">
+    Ensure you are double-clicking and using a supported browser.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Summary Tips and Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Start with summaries" icon="eye">
+    Review summaries before reading full documents
+  </Card>
+  <Card title="Validate selectively" icon="check-circle">
+    Use citations to spot-check accuracy
+  </Card>
+  <Card title="Edit lightly" icon="edit">
+    Clarify rather than duplicate full document detail
+  </Card>
+  <Card title="Regenerate when unsure" icon="rotate">
+    Regeneration is safer for major inaccuracies
+  </Card>
+</CardGroup>
